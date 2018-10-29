@@ -1,0 +1,26 @@
+{
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "surname",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "workingStatus",
+            "fieldType": "Integer"
+        }
+    ],
+    "changelogDate": "20181029184003",
+    "dto": "no",
+    "searchEngine": false,
+    "service": "no",
+    "entityTableName": "restaurant_worker",
+    "jpaMetamodelFiltering": false,
+    "pagination": "no"
+}
