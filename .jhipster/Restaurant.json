@@ -1,0 +1,22 @@
+{
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "address",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20181029195648",
+    "dto": "no",
+    "searchEngine": false,
+    "service": "no",
+    "entityTableName": "restaurant",
+    "jpaMetamodelFiltering": false,
+    "pagination": "no"
+}
