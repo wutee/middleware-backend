@@ -1,0 +1,31 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.propsy.backend"
+    },
+    "jhipsterVersion": "5.5.0",
+    "applicationType": "monolith",
+    "baseName": "propsyBackendSample",
+    "packageName": "com.propsy.backend",
+    "packageFolder": "com/propsy/backend",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "no",
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Disk",
+    "prodDatabaseType": "mysql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "gradle",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "NzljYzA2OTNkOTVjYjdhZjZmYzllNzc3MDY4OWZmNjAwMDI3NzE1MmI5ZTdhMzE4ZjkzNDNkN2ZmM2ZmYWYwZGZkZjNhY2JlM2RhZDU3NmFlMjYyMWUwZTQ0MTlmNzI4NWU5MWYyOTk1MWUxNjgyNzA4NmRkZTY0MTkwMjIxODA=",
+    "clientFramework": "angularX",
+    "useSass": false,
+    "clientPackageManager": "npm",
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "enableTranslation": false
+  }
+}
