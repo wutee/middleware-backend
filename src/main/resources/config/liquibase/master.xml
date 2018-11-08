@@ -5,6 +5,28 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181108132557_added_entity_Restaurant.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181108132558_added_entity_RestaurantWorker.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181108132559_added_entity_Menu.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181108132600_added_entity_FoodInMenu.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181108132601_added_entity_Food.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181108132602_added_entity_CustomerOrder.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181108132603_added_entity_FoodInOrder.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181108162609_added_entity_Payment.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181108162610_added_entity_PaymentMethod.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181108162611_added_entity_Customer.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181108162612_added_entity_Translations.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181108162613_added_entity_Language.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181108162614_added_entity_Ingredient.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181108162615_added_entity_IngredientsToOrder.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181108162616_added_entity_IngredientOrder.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181108162617_added_entity_DeliveryMan.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181108162618_added_entity_Deliveries.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20181108132558_added_entity_constraints_RestaurantWorker.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181108132559_added_entity_constraints_Menu.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181108132600_added_entity_constraints_FoodInMenu.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181108132601_added_entity_constraints_Food.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181108132603_added_entity_constraints_FoodInOrder.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

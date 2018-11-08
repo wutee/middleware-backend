@@ -1,0 +1,45 @@
+{
+    "name": "Restaurant",
+    "fields": [
+        {
+            "fieldName": "nameSlug",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "address",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "ownerId",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "menu",
+            "otherEntityName": "menu",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "restaurant"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "employee",
+            "otherEntityName": "restaurantWorker",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "employer"
+        }
+    ],
+    "changelogDate": "20181108132557",
+    "entityTableName": "restaurant",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity FoodInMenu.
+    -->
+    <changeSet id="20181108132600-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="menu_id"
+                                 baseTableName="food_in_menu"
+                                 constraintName="fk_food_in_menu_menu_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="menu"/>
+
+    </changeSet>
+</databaseChangeLog>

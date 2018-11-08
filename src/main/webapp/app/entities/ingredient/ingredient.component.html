@@ -1,0 +1,58 @@
+<div>
+    <h2 id="page-heading">
+        <span>Ingredients</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-ingredient" [routerLink]="['/ingredient/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create new Ingredient
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="ingredients">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span>ID</span></th>
+            <th><span>Name Slug</span></th>
+            <th><span>Photo Location</span></th>
+            <th><span>Ingredient Description</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let ingredient of ingredients ;trackBy: trackId">
+                <td><a [routerLink]="['/ingredient', ingredient.id, 'view' ]">{{ingredient.id}}</a></td>
+                <td>{{ingredient.nameSlug}}</td>
+                <td>{{ingredient.photoLocation}}</td>
+                <td>{{ingredient.ingredientDescription}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/ingredient', ingredient.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/ingredient', ingredient.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'ingredient/'+ ingredient.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

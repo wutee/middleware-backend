@@ -1,0 +1,33 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="menu">
+            <h2><span>Menu</span> {{menu.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Name Slug</span></dt>
+                <dd>
+                    <span>{{menu.nameSlug}}</span>
+                </dd>
+                <dt><span>Restaurant</span></dt>
+                <dd>
+                    <div *ngIf="menu.restaurant">
+                        <a [routerLink]="['/restaurant', menu.restaurant?.id, 'view']">{{menu.restaurant?.nameSlug}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/menu', menu.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

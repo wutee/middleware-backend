@@ -1,0 +1,19 @@
+{
+    "name": "Translations",
+    "fields": [
+        {
+            "fieldName": "translation",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20181108162612",
+    "entityTableName": "translations",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

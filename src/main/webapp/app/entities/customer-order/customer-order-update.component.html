@@ -1,0 +1,106 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-customer-order-heading">Create or edit a Customer Order</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!customerOrder.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="customerOrder.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_date">Date</label>
+                    <div class="input-group">
+                        <input id="field_date" type="text" class="form-control" name="date" ngbDatepicker  #dateDp="ngbDatepicker" [(ngModel)]="customerOrder.date"
+                        required/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="dateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div [hidden]="!(editForm.controls.date?.dirty && editForm.controls.date?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.date?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_lastUpdatedDate">Last Updated Date</label>
+                    <div class="input-group">
+                        <input id="field_lastUpdatedDate" type="text" class="form-control" name="lastUpdatedDate" ngbDatepicker  #lastUpdatedDateDp="ngbDatepicker" [(ngModel)]="customerOrder.lastUpdatedDate"
+                        required/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="lastUpdatedDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div [hidden]="!(editForm.controls.lastUpdatedDate?.dirty && editForm.controls.lastUpdatedDate?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.lastUpdatedDate?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_status">Status</label>
+                    <input type="number" class="form-control" name="status" id="field_status"
+                        [(ngModel)]="customerOrder.status" required/>
+                    <div [hidden]="!(editForm.controls.status?.dirty && editForm.controls.status?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.status?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.status?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_price">Price</label>
+                    <input type="number" class="form-control" name="price" id="field_price"
+                        [(ngModel)]="customerOrder.price" required/>
+                    <div [hidden]="!(editForm.controls.price?.dirty && editForm.controls.price?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.price?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.price?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_userOpinion">User Opinion</label>
+                    <input type="text" class="form-control" name="userOpinion" id="field_userOpinion"
+                        [(ngModel)]="customerOrder.userOpinion" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_userComment">User Comment</label>
+                    <input type="text" class="form-control" name="userComment" id="field_userComment"
+                        [(ngModel)]="customerOrder.userComment" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_deliveryManComment">Delivery Man Comment</label>
+                    <input type="text" class="form-control" name="deliveryManComment" id="field_deliveryManComment"
+                        [(ngModel)]="customerOrder.deliveryManComment" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_loyaltyPoints">Loyalty Points</label>
+                    <input type="number" class="form-control" name="loyaltyPoints" id="field_loyaltyPoints"
+                        [(ngModel)]="customerOrder.loyaltyPoints" />
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

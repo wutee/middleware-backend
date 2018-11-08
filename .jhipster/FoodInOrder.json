@@ -1,0 +1,27 @@
+{
+    "name": "FoodInOrder",
+    "fields": [],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "orderList",
+            "otherEntityName": "customerOrder",
+            "otherEntityField": "nameSlug"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "foodList",
+            "otherEntityName": "food",
+            "otherEntityRelationshipName": "order"
+        }
+    ],
+    "changelogDate": "20181108132603",
+    "entityTableName": "food_in_order",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

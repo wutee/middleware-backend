@@ -1,0 +1,22 @@
+{
+    "name": "PaymentMethod",
+    "fields": [
+        {
+            "fieldName": "paymentName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20181108162610",
+    "entityTableName": "payment_method",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

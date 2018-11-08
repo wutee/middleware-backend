@@ -1,0 +1,27 @@
+{
+    "name": "Ingredient",
+    "fields": [
+        {
+            "fieldName": "nameSlug",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "photoLocation",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "ingredientDescription",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20181108162614",
+    "entityTableName": "ingredient",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

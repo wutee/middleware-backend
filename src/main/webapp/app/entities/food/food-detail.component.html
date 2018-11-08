@@ -1,0 +1,63 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="food">
+            <h2><span>Food</span> {{food.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Name Slug</span></dt>
+                <dd>
+                    <span>{{food.nameSlug}}</span>
+                </dd>
+                <dt><span>Food Description</span></dt>
+                <dd>
+                    <span>{{food.foodDescription}}</span>
+                </dd>
+                <dt><span>Calories</span></dt>
+                <dd>
+                    <span>{{food.calories}}</span>
+                </dd>
+                <dt><span>Is Spicy</span></dt>
+                <dd>
+                    <span>{{food.isSpicy}}</span>
+                </dd>
+                <dt><span>Is Vegetarian</span></dt>
+                <dd>
+                    <span>{{food.isVegetarian}}</span>
+                </dd>
+                <dt><span>Is Gluten Free</span></dt>
+                <dd>
+                    <span>{{food.isGlutenFree}}</span>
+                </dd>
+                <dt><span>Photo Location</span></dt>
+                <dd>
+                    <span>{{food.photoLocation}}</span>
+                </dd>
+                <dt><span>Order</span></dt>
+                <dd>
+                    <div *ngIf="food.order">
+                        <a [routerLink]="['/food-in-order', food.order?.id, 'view']">{{food.order?.nameSlug}}</a>
+                    </div>
+                </dd>
+                <dt><span>Menu List</span></dt>
+                <dd>
+                    <div *ngIf="food.menuList">
+                        <a [routerLink]="['/food-in-menu', food.menuList?.id, 'view']">{{food.menuList?.nameSlug}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/food', food.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

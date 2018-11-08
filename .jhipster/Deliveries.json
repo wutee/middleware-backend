@@ -1,0 +1,14 @@
+{
+    "name": "Deliveries",
+    "fields": [],
+    "relationships": [],
+    "changelogDate": "20181108162618",
+    "entityTableName": "deliveries",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

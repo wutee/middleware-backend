@@ -1,0 +1,66 @@
+{
+    "name": "CustomerOrder",
+    "fields": [
+        {
+            "fieldName": "date",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "lastUpdatedDate",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "price",
+            "fieldType": "Float",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "userOpinion",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "userComment",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "deliveryManComment",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "loyaltyPoints",
+            "fieldType": "Integer"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "foodList",
+            "otherEntityName": "foodInOrder",
+            "otherEntityRelationshipName": "orderList"
+        }
+    ],
+    "changelogDate": "20181108132602",
+    "entityTableName": "customer_order",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

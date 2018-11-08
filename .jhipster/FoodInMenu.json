@@ -1,0 +1,35 @@
+{
+    "name": "FoodInMenu",
+    "fields": [
+        {
+            "fieldName": "price",
+            "fieldType": "Float",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "menu",
+            "otherEntityName": "menu",
+            "otherEntityField": "nameSlug"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "foodList",
+            "otherEntityName": "food",
+            "otherEntityRelationshipName": "menuList"
+        }
+    ],
+    "changelogDate": "20181108132600",
+    "entityTableName": "food_in_menu",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

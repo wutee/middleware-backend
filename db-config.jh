@@ -1,0 +1,116 @@
+entity Restaurant {
+	nameSlug String required
+    address String
+    ownerId String
+}
+
+entity RestaurantWorker {
+	workerName String required
+    workerSurname String required
+    workingStatus Integer
+}
+
+relationship ManyToMany {
+	RestaurantWorker{employer(nameSlug)} to Restaurant{employee}
+}
+
+entity Menu {
+	nameSlug String
+}
+
+relationship OneToOne {
+	Menu{restaurant(nameSlug)} to Restaurant{menu}
+}
+
+entity FoodInMenu {					//potrzebne?
+	price Float required
+}
+
+entity Food {
+	nameSlug String required
+    foodDescription String
+    calories Integer
+    isSpicy Boolean
+    isVegetarian Boolean
+    isGlutenFree Boolean
+    photoLocation String
+}
+
+relationship OneToMany {
+	Menu{foodList} to FoodInMenu{menu(nameSlug)}
+}
+
+entity CustomerOrder {
+	date LocalDate required
+    lastUpdatedDate LocalDate required
+    status Integer required
+    price Float required
+    userOpinion String
+    userComment String
+    deliveryManComment String
+    loyaltyPoints Integer
+}
+
+entity FoodInOrder {				//potrzebne?
+}
+
+relationship OneToMany {
+	CustomerOrder{foodList} to FoodInOrder{orderList}
+}
+
+relationship ManyToOne {
+	Food{order} to FoodInOrder{foodList}
+}
+
+relationship ManyToOne {
+	Food{menuList} to FoodInMenu{foodList}
+}
+
+entity Payment {
+	status Integer required
+}
+
+entity PaymentMethod {
+	paymentName String required
+}
+
+entity Customer {					//nazwa zmieniona z User aby rozroznic od uzytkownikow aplikacji
+	name String required
+    mail String required
+    role Integer
+    address String
+    city String
+  	phone String
+    loyaltyPoints Integer
+}
+
+entity Translations {				//internationalization support wbudowany w jhipster
+	translation String
+}
+
+entity Language {
+	phrase String
+}
+
+entity Ingredient {
+	nameSlug String
+    photoLocation String
+    ingredientDescription String	//comment?
+}
+
+entity IngredientsToOrder {			//niespojne nazwy? konieczne podwojenie?
+	quantity Integer
+}
+
+entity IngredientOrder {
+	date LocalDate
+    comment String
+}
+
+entity DeliveryPersonnel {
+	name String
+    surname String
+}
+
+entity Deliveries {
+}

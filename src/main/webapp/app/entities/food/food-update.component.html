@@ -1,0 +1,79 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-food-heading">Create or edit a Food</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!food.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="food.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_nameSlug">Name Slug</label>
+                    <input type="text" class="form-control" name="nameSlug" id="field_nameSlug"
+                        [(ngModel)]="food.nameSlug" required/>
+                    <div [hidden]="!(editForm.controls.nameSlug?.dirty && editForm.controls.nameSlug?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.nameSlug?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_foodDescription">Food Description</label>
+                    <input type="text" class="form-control" name="foodDescription" id="field_foodDescription"
+                        [(ngModel)]="food.foodDescription" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_calories">Calories</label>
+                    <input type="number" class="form-control" name="calories" id="field_calories"
+                        [(ngModel)]="food.calories" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_isSpicy">Is Spicy</label>
+                    <input type="checkbox" class="form-control" name="isSpicy" id="field_isSpicy"
+                        [(ngModel)]="food.isSpicy" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_isVegetarian">Is Vegetarian</label>
+                    <input type="checkbox" class="form-control" name="isVegetarian" id="field_isVegetarian"
+                        [(ngModel)]="food.isVegetarian" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_isGlutenFree">Is Gluten Free</label>
+                    <input type="checkbox" class="form-control" name="isGlutenFree" id="field_isGlutenFree"
+                        [(ngModel)]="food.isGlutenFree" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_photoLocation">Photo Location</label>
+                    <input type="text" class="form-control" name="photoLocation" id="field_photoLocation"
+                        [(ngModel)]="food.photoLocation" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_order">Order</label>
+                    <select class="form-control" id="field_order" name="order" [(ngModel)]="food.order" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="foodInOrderOption.id === food.order?.id ? food.order : foodInOrderOption" *ngFor="let foodInOrderOption of foodinorders; trackBy: trackFoodInOrderById">{{foodInOrderOption.nameSlug}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_menuList">Menu List</label>
+                    <select class="form-control" id="field_menuList" name="menuList" [(ngModel)]="food.menuList" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="foodInMenuOption.id === food.menuList?.id ? food.menuList : foodInMenuOption" *ngFor="let foodInMenuOption of foodinmenus; trackBy: trackFoodInMenuById">{{foodInMenuOption.nameSlug}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
