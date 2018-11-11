@@ -1,0 +1,33 @@
+
+{
+    "propsyBackendv01App": {
+        "foodOrder" : {
+            "home": {
+                "title": "Food Orders",
+                "createLabel": "Create a new Food Order",
+                "createOrEditLabel": "Create or edit a Food Order"
+            },
+            "created": "A new Food Order is created with identifier {{ param }}",
+            "updated": "A Food Order is updated with identifier {{ param }}",
+            "deleted": "A Food Order is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Food Order {{ id }}?"
+            },
+            "detail": {
+                "title": "Food Order"
+            },
+            "date": "Date",
+            "lastUpdatedDate": "Last Updated Date",
+            "status": "Status",
+            "price": "Price",
+            "userOpinion": "User Opinion",
+            "userComment": "User Comment",
+            "deliveryManComment": "Delivery Man Comment",
+            "loyaltyPoints": "Loyalty Points",
+            "restaurant": "Restaurant",
+            "orderee": "Orderee",
+            "delivery": "Delivery",
+            "foodItems": "Food Items"
+        }
+    }
+}

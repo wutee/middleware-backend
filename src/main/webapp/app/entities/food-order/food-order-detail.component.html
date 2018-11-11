@@ -1,0 +1,79 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="foodOrder">
+            <h2><span jhiTranslate="propsyBackendv01App.foodOrder.detail.title">Food Order</span> {{foodOrder.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="propsyBackendv01App.foodOrder.date">Date</span></dt>
+                <dd>
+                    <span>{{foodOrder.date}}</span>
+                </dd>
+                <dt><span jhiTranslate="propsyBackendv01App.foodOrder.lastUpdatedDate">Last Updated Date</span></dt>
+                <dd>
+                    <span>{{foodOrder.lastUpdatedDate}}</span>
+                </dd>
+                <dt><span jhiTranslate="propsyBackendv01App.foodOrder.status">Status</span></dt>
+                <dd>
+                    <span>{{foodOrder.status}}</span>
+                </dd>
+                <dt><span jhiTranslate="propsyBackendv01App.foodOrder.price">Price</span></dt>
+                <dd>
+                    <span>{{foodOrder.price}}</span>
+                </dd>
+                <dt><span jhiTranslate="propsyBackendv01App.foodOrder.userOpinion">User Opinion</span></dt>
+                <dd>
+                    <span>{{foodOrder.userOpinion}}</span>
+                </dd>
+                <dt><span jhiTranslate="propsyBackendv01App.foodOrder.userComment">User Comment</span></dt>
+                <dd>
+                    <span>{{foodOrder.userComment}}</span>
+                </dd>
+                <dt><span jhiTranslate="propsyBackendv01App.foodOrder.deliveryManComment">Delivery Man Comment</span></dt>
+                <dd>
+                    <span>{{foodOrder.deliveryManComment}}</span>
+                </dd>
+                <dt><span jhiTranslate="propsyBackendv01App.foodOrder.loyaltyPoints">Loyalty Points</span></dt>
+                <dd>
+                    <span>{{foodOrder.loyaltyPoints}}</span>
+                </dd>
+                <dt><span jhiTranslate="propsyBackendv01App.foodOrder.restaurant">Restaurant</span></dt>
+                <dd>
+                    <div *ngIf="foodOrder.restaurant">
+                        <a [routerLink]="['/restaurant', foodOrder.restaurant?.id, 'view']">{{foodOrder.restaurant?.nameSlug}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="propsyBackendv01App.foodOrder.orderee">Orderee</span></dt>
+                <dd>
+                    <div *ngIf="foodOrder.orderee">
+                        <a [routerLink]="['/customer', foodOrder.orderee?.id, 'view']">{{foodOrder.orderee?.name}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="propsyBackendv01App.foodOrder.delivery">Delivery</span></dt>
+                <dd>
+                    <div *ngIf="foodOrder.delivery">
+                        <a [routerLink]="['/delivery-personnel', foodOrder.delivery?.id, 'view']">{{foodOrder.delivery?.name}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="propsyBackendv01App.foodOrder.foodItems">Food Items</span></dt>
+                <dd>
+                    <span *ngFor="let foodItems of foodOrder.foodItems; let last = last">
+                        <a [routerLink]="['/food', foodItems?.id, 'view' ]">{{foodItems.nameSlug}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/food-order', foodOrder.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

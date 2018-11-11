@@ -1,0 +1,23 @@
+
+{
+    "propsyBackendv01App": {
+        "language" : {
+            "home": {
+                "title": "Language",
+                "createLabel": "Dodaj Language",
+                "createOrEditLabel": "Dodaj lub edytuj: Language"
+            },
+            "created": "Utworzono nowy obiekt typu Language z identyfikatorem {{ param }}",
+            "updated": "Uaktualniono obiekt typu Language z identyfikatorem {{ param }}",
+            "deleted": "Usunięto obiekt typu Language z identyfikatorem {{ param }}",
+            "delete": {
+                "question": "Czy na pewno chcesz usunąć Language {{ id }}?"
+            },
+            "detail": {
+                "title": "Language"
+            },
+            "nameSlug": "Name Slug",
+            "translation": "Translation"
+        }
+    }
+}

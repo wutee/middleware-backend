@@ -1,0 +1,25 @@
+
+{
+    "propsyBackendv01App": {
+        "ingredientOrder" : {
+            "home": {
+                "title": "Ingredient Orders",
+                "createLabel": "Ingredient Order erstellen",
+                "createOrEditLabel": "Ingredient Order erstellen oder bearbeiten"
+            },
+            "created": "Ingredient Order erstellt mit ID {{ param }}",
+            "updated": "Ingredient Order aktualisiert mit ID {{ param }}",
+            "deleted": "Ingredient Order gelöscht mit ID {{ param }}",
+            "delete": {
+                "question": "Soll Ingredient Order {{ id }} wirklich dauerhaft gelöscht werden?"
+            },
+            "detail": {
+                "title": "Ingredient Order"
+            },
+            "date": "Date",
+            "totalPrice": "Total Price",
+            "comment": "Comment",
+            "ingredientList": "Ingredient List"
+        }
+    }
+}

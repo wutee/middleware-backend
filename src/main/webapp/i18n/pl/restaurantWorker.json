@@ -1,0 +1,25 @@
+
+{
+    "propsyBackendv01App": {
+        "restaurantWorker" : {
+            "home": {
+                "title": "Restaurant Worker",
+                "createLabel": "Dodaj Restaurant Worker",
+                "createOrEditLabel": "Dodaj lub edytuj: Restaurant Worker"
+            },
+            "created": "Utworzono nowy obiekt typu Restaurant Worker z identyfikatorem {{ param }}",
+            "updated": "Uaktualniono obiekt typu Restaurant Worker z identyfikatorem {{ param }}",
+            "deleted": "Usunięto obiekt typu Restaurant Worker z identyfikatorem {{ param }}",
+            "delete": {
+                "question": "Czy na pewno chcesz usunąć Restaurant Worker {{ id }}?"
+            },
+            "detail": {
+                "title": "Restaurant Worker"
+            },
+            "workerName": "Worker Name",
+            "workerSurname": "Worker Surname",
+            "workingStatus": "Working Status",
+            "employer": "Employer"
+        }
+    }
+}

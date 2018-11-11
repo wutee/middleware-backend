@@ -1,0 +1,24 @@
+
+{
+    "propsyBackendv01App": {
+        "translation" : {
+            "home": {
+                "title": "Translation",
+                "createLabel": "Dodaj Translation",
+                "createOrEditLabel": "Dodaj lub edytuj: Translation"
+            },
+            "created": "Utworzono nowy obiekt typu Translation z identyfikatorem {{ param }}",
+            "updated": "Uaktualniono obiekt typu Translation z identyfikatorem {{ param }}",
+            "deleted": "Usunięto obiekt typu Translation z identyfikatorem {{ param }}",
+            "delete": {
+                "question": "Czy na pewno chcesz usunąć Translation {{ id }}?"
+            },
+            "detail": {
+                "title": "Translation"
+            },
+            "translation": "Translation",
+            "food": "Food",
+            "language": "Language"
+        }
+    }
+}

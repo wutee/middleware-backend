@@ -1,0 +1,42 @@
+{
+    "name": "IngredientOrder",
+    "fields": [
+        {
+            "fieldName": "date",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "totalPrice",
+            "fieldType": "Float",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "comment",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "order",
+            "relationshipName": "ingredientList",
+            "otherEntityName": "ingredient",
+            "otherEntityField": "nameSlug",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20181111183809",
+    "entityTableName": "ingredient_order",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

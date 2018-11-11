@@ -1,0 +1,29 @@
+{
+    "name": "PaymentMethod",
+    "fields": [
+        {
+            "fieldName": "paymentName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "payment",
+            "otherEntityName": "payment",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20181111183804",
+    "entityTableName": "payment_method",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

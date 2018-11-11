@@ -1,0 +1,34 @@
+{
+    "name": "Menu",
+    "fields": [
+        {
+            "fieldName": "nameSlug",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "restaurant",
+            "otherEntityName": "restaurant",
+            "otherEntityField": "nameSlug"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "menu",
+            "relationshipName": "foodItems",
+            "otherEntityName": "food",
+            "otherEntityField": "nameSlug",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20181111183800",
+    "entityTableName": "menu",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

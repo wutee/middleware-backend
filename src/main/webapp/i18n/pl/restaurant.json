@@ -1,0 +1,27 @@
+
+{
+    "propsyBackendv01App": {
+        "restaurant" : {
+            "home": {
+                "title": "Restaurant",
+                "createLabel": "Dodaj Restaurant",
+                "createOrEditLabel": "Dodaj lub edytuj: Restaurant"
+            },
+            "created": "Utworzono nowy obiekt typu Restaurant z identyfikatorem {{ param }}",
+            "updated": "Uaktualniono obiekt typu Restaurant z identyfikatorem {{ param }}",
+            "deleted": "Usunięto obiekt typu Restaurant z identyfikatorem {{ param }}",
+            "delete": {
+                "question": "Czy na pewno chcesz usunąć Restaurant {{ id }}?"
+            },
+            "detail": {
+                "title": "Restaurant"
+            },
+            "nameSlug": "Name Slug",
+            "address": "Address",
+            "ownerId": "Owner Id",
+            "menu": "Menu",
+            "order": "Order",
+            "employee": "Employee"
+        }
+    }
+}

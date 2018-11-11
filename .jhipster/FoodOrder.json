@@ -1,0 +1,86 @@
+{
+    "name": "FoodOrder",
+    "fields": [
+        {
+            "fieldName": "date",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "lastUpdatedDate",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "price",
+            "fieldType": "Float",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "userOpinion",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "userComment",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "deliveryManComment",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "loyaltyPoints",
+            "fieldType": "Integer"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "restaurant",
+            "otherEntityName": "restaurant",
+            "otherEntityField": "nameSlug"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "orderee",
+            "otherEntityName": "customer",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "delivery",
+            "otherEntityName": "deliveryPersonnel",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "order",
+            "relationshipName": "foodItems",
+            "otherEntityName": "food",
+            "otherEntityField": "nameSlug",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20181111183802",
+    "entityTableName": "food_order",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

@@ -1,0 +1,23 @@
+
+{
+    "propsyBackendv01App": {
+        "paymentMethod" : {
+            "home": {
+                "title": "Payment Methods",
+                "createLabel": "Payment Method erstellen",
+                "createOrEditLabel": "Payment Method erstellen oder bearbeiten"
+            },
+            "created": "Payment Method erstellt mit ID {{ param }}",
+            "updated": "Payment Method aktualisiert mit ID {{ param }}",
+            "deleted": "Payment Method gelöscht mit ID {{ param }}",
+            "delete": {
+                "question": "Soll Payment Method {{ id }} wirklich dauerhaft gelöscht werden?"
+            },
+            "detail": {
+                "title": "Payment Method"
+            },
+            "paymentName": "Payment Name",
+            "payment": "Payment"
+        }
+    }
+}

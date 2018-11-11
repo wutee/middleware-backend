@@ -1,0 +1,24 @@
+
+{
+    "propsyBackendv01App": {
+        "deliveryPersonnel" : {
+            "home": {
+                "title": "Delivery Personnels",
+                "createLabel": "Delivery Personnel erstellen",
+                "createOrEditLabel": "Delivery Personnel erstellen oder bearbeiten"
+            },
+            "created": "Delivery Personnel erstellt mit ID {{ param }}",
+            "updated": "Delivery Personnel aktualisiert mit ID {{ param }}",
+            "deleted": "Delivery Personnel gelöscht mit ID {{ param }}",
+            "delete": {
+                "question": "Soll Delivery Personnel {{ id }} wirklich dauerhaft gelöscht werden?"
+            },
+            "detail": {
+                "title": "Delivery Personnel"
+            },
+            "name": "Name",
+            "surname": "Surname",
+            "order": "Order"
+        }
+    }
+}

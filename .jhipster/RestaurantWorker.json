@@ -1,0 +1,42 @@
+{
+    "name": "RestaurantWorker",
+    "fields": [
+        {
+            "fieldName": "workerName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "workerSurname",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "workingStatus",
+            "fieldType": "Integer"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "employee",
+            "relationshipName": "employer",
+            "otherEntityName": "restaurant",
+            "otherEntityField": "nameSlug",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20181111183759",
+    "entityTableName": "restaurant_worker",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

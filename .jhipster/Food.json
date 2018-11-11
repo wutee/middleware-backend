@@ -1,0 +1,75 @@
+{
+    "name": "Food",
+    "fields": [
+        {
+            "fieldName": "nameSlug",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "price",
+            "fieldType": "Float",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "foodDescription",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "calories",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "isSpicy",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "isVegetarian",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "isGlutenFree",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "photoLocation",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "translation",
+            "otherEntityName": "translation",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "food"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "menu",
+            "otherEntityName": "menu",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "foodItems"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "order",
+            "otherEntityName": "foodOrder",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "foodItems"
+        }
+    ],
+    "changelogDate": "20181111183801",
+    "entityTableName": "food",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

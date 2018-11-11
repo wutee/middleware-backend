@@ -1,0 +1,43 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-translation-heading" jhiTranslate="propsyBackendv01App.translation.home.createOrEditLabel">Create or edit a Translation</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!translation.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="translation.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="propsyBackendv01App.translation.translation" for="field_translation">Translation</label>
+                    <input type="text" class="form-control" name="translation" id="field_translation"
+                        [(ngModel)]="translation.translation" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="propsyBackendv01App.translation.food" for="field_food">Food</label>
+                    <select class="form-control" id="field_food" name="food" [(ngModel)]="translation.food">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="foodOption.id === translation.food?.id ? translation.food : foodOption" *ngFor="let foodOption of foods; trackBy: trackFoodById">{{foodOption.nameSlug}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="propsyBackendv01App.translation.language" for="field_language">Language</label>
+                    <select class="form-control" id="field_language" name="language" [(ngModel)]="translation.language" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="languageOption.id === translation.language?.id ? translation.language : languageOption" *ngFor="let languageOption of languages; trackBy: trackLanguageById">{{languageOption.nameSlug}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

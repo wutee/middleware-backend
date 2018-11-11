@@ -1,0 +1,25 @@
+
+{
+    "propsyBackendv01App": {
+        "restaurantWorker" : {
+            "home": {
+                "title": "Restaurant Workers",
+                "createLabel": "Restaurant Worker erstellen",
+                "createOrEditLabel": "Restaurant Worker erstellen oder bearbeiten"
+            },
+            "created": "Restaurant Worker erstellt mit ID {{ param }}",
+            "updated": "Restaurant Worker aktualisiert mit ID {{ param }}",
+            "deleted": "Restaurant Worker gelöscht mit ID {{ param }}",
+            "delete": {
+                "question": "Soll Restaurant Worker {{ id }} wirklich dauerhaft gelöscht werden?"
+            },
+            "detail": {
+                "title": "Restaurant Worker"
+            },
+            "workerName": "Worker Name",
+            "workerSurname": "Worker Surname",
+            "workingStatus": "Working Status",
+            "employer": "Employer"
+        }
+    }
+}

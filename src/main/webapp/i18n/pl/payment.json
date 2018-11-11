@@ -1,0 +1,23 @@
+
+{
+    "propsyBackendv01App": {
+        "payment" : {
+            "home": {
+                "title": "Payment",
+                "createLabel": "Dodaj Payment",
+                "createOrEditLabel": "Dodaj lub edytuj: Payment"
+            },
+            "created": "Utworzono nowy obiekt typu Payment z identyfikatorem {{ param }}",
+            "updated": "Uaktualniono obiekt typu Payment z identyfikatorem {{ param }}",
+            "deleted": "Usunięto obiekt typu Payment z identyfikatorem {{ param }}",
+            "delete": {
+                "question": "Czy na pewno chcesz usunąć Payment {{ id }}?"
+            },
+            "detail": {
+                "title": "Payment"
+            },
+            "status": "Status",
+            "method": "Method"
+        }
+    }
+}

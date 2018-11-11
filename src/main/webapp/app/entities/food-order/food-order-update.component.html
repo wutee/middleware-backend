@@ -1,0 +1,133 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-food-order-heading" jhiTranslate="propsyBackendv01App.foodOrder.home.createOrEditLabel">Create or edit a Food Order</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!foodOrder.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="foodOrder.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="propsyBackendv01App.foodOrder.date" for="field_date">Date</label>
+                    <div class="input-group">
+                        <input id="field_date" type="text" class="form-control" name="date" ngbDatepicker  #dateDp="ngbDatepicker" [(ngModel)]="foodOrder.date"
+                        required/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="dateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div [hidden]="!(editForm.controls.date?.dirty && editForm.controls.date?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.date?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="propsyBackendv01App.foodOrder.lastUpdatedDate" for="field_lastUpdatedDate">Last Updated Date</label>
+                    <div class="input-group">
+                        <input id="field_lastUpdatedDate" type="text" class="form-control" name="lastUpdatedDate" ngbDatepicker  #lastUpdatedDateDp="ngbDatepicker" [(ngModel)]="foodOrder.lastUpdatedDate"
+                        required/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="lastUpdatedDateDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div [hidden]="!(editForm.controls.lastUpdatedDate?.dirty && editForm.controls.lastUpdatedDate?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.lastUpdatedDate?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="propsyBackendv01App.foodOrder.status" for="field_status">Status</label>
+                    <input type="number" class="form-control" name="status" id="field_status"
+                        [(ngModel)]="foodOrder.status" required/>
+                    <div [hidden]="!(editForm.controls.status?.dirty && editForm.controls.status?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.status?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.status?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="propsyBackendv01App.foodOrder.price" for="field_price">Price</label>
+                    <input type="number" class="form-control" name="price" id="field_price"
+                        [(ngModel)]="foodOrder.price" required/>
+                    <div [hidden]="!(editForm.controls.price?.dirty && editForm.controls.price?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.price?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.price?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="propsyBackendv01App.foodOrder.userOpinion" for="field_userOpinion">User Opinion</label>
+                    <input type="text" class="form-control" name="userOpinion" id="field_userOpinion"
+                        [(ngModel)]="foodOrder.userOpinion" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="propsyBackendv01App.foodOrder.userComment" for="field_userComment">User Comment</label>
+                    <input type="text" class="form-control" name="userComment" id="field_userComment"
+                        [(ngModel)]="foodOrder.userComment" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="propsyBackendv01App.foodOrder.deliveryManComment" for="field_deliveryManComment">Delivery Man Comment</label>
+                    <input type="text" class="form-control" name="deliveryManComment" id="field_deliveryManComment"
+                        [(ngModel)]="foodOrder.deliveryManComment" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="propsyBackendv01App.foodOrder.loyaltyPoints" for="field_loyaltyPoints">Loyalty Points</label>
+                    <input type="number" class="form-control" name="loyaltyPoints" id="field_loyaltyPoints"
+                        [(ngModel)]="foodOrder.loyaltyPoints" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="propsyBackendv01App.foodOrder.restaurant" for="field_restaurant">Restaurant</label>
+                    <select class="form-control" id="field_restaurant" name="restaurant" [(ngModel)]="foodOrder.restaurant" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="restaurantOption.id === foodOrder.restaurant?.id ? foodOrder.restaurant : restaurantOption" *ngFor="let restaurantOption of restaurants; trackBy: trackRestaurantById">{{restaurantOption.nameSlug}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="propsyBackendv01App.foodOrder.orderee" for="field_orderee">Orderee</label>
+                    <select class="form-control" id="field_orderee" name="orderee" [(ngModel)]="foodOrder.orderee" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="customerOption.id === foodOrder.orderee?.id ? foodOrder.orderee : customerOption" *ngFor="let customerOption of customers; trackBy: trackCustomerById">{{customerOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="propsyBackendv01App.foodOrder.delivery" for="field_delivery">Delivery</label>
+                    <select class="form-control" id="field_delivery" name="delivery" [(ngModel)]="foodOrder.delivery" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="deliveryPersonnelOption.id === foodOrder.delivery?.id ? foodOrder.delivery : deliveryPersonnelOption" *ngFor="let deliveryPersonnelOption of deliverypersonnels; trackBy: trackDeliveryPersonnelById">{{deliveryPersonnelOption.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label jhiTranslate="propsyBackendv01App.foodOrder.foodItems" for="field_foodItems">Food Items</label>
+                    <select class="form-control" id="field_foodItems" multiple name="foodItems" [(ngModel)]="foodOrder.foodItems">
+                        <option [ngValue]="getSelected(foodOrder.foodItems, foodOption)" *ngFor="let foodOption of foods; trackBy: trackFoodById">{{foodOption.nameSlug}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-menu-heading" jhiTranslate="propsyBackendv01App.menu.home.createOrEditLabel">Create or edit a Menu</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!menu.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="menu.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="propsyBackendv01App.menu.nameSlug" for="field_nameSlug">Name Slug</label>
+                    <input type="text" class="form-control" name="nameSlug" id="field_nameSlug"
+                        [(ngModel)]="menu.nameSlug" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="propsyBackendv01App.menu.restaurant" for="field_restaurant">Restaurant</label>
+                    <select class="form-control" id="field_restaurant" name="restaurant" [(ngModel)]="menu.restaurant" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="restaurantOption.id === menu.restaurant?.id ? menu.restaurant : restaurantOption" *ngFor="let restaurantOption of restaurants; trackBy: trackRestaurantById">{{restaurantOption.nameSlug}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label jhiTranslate="propsyBackendv01App.menu.foodItems" for="field_foodItems">Food Items</label>
+                    <select class="form-control" id="field_foodItems" multiple name="foodItems" [(ngModel)]="menu.foodItems">
+                        <option [ngValue]="getSelected(menu.foodItems, foodOption)" *ngFor="let foodOption of foods; trackBy: trackFoodById">{{foodOption.nameSlug}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

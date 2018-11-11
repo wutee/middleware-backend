@@ -1,0 +1,135 @@
+//config file for entity structure in the app and the DB.
+
+//=====================================================================================
+//							ENTITIES
+//=====================================================================================
+
+entity Restaurant {
+	nameSlug String required
+    address String
+    ownerId String
+}
+
+entity RestaurantWorker {
+	workerName String required
+    workerSurname String required
+    workingStatus Integer
+}
+
+entity Menu {
+	nameSlug String required
+}
+
+entity Food {
+	nameSlug String required
+    price Float required
+    foodDescription String
+    calories Integer
+    isSpicy Boolean
+    isVegetarian Boolean
+    isGlutenFree Boolean
+    photoLocation String
+}
+
+entity FoodOrder {
+	date LocalDate required
+    lastUpdatedDate LocalDate required
+    status Integer required
+    price Float required
+    userOpinion String
+    userComment String
+    deliveryManComment String
+    loyaltyPoints Integer
+}
+
+entity Payment {
+	status Integer required
+}
+
+entity PaymentMethod {
+	paymentName String required
+}
+
+entity Customer {					//polaczyc z jhi_user
+	name String required
+    mail String required
+    role Integer
+    address String
+    city String
+  	phone String
+    loyaltyPoints Integer
+}
+
+entity Translation {				//internationalization support wbudowany w jhipster
+	translation String required
+}
+
+entity Language {
+	nameSlug String required
+}
+
+entity Ingredient {
+	nameSlug String required
+    price Float required
+    photoLocation String
+    ingredientDescription String	//comment?
+}
+
+entity IngredientOrder {
+	date LocalDate required
+    totalPrice Float required
+    comment String
+}
+
+entity DeliveryPersonnel {
+	name String required
+    surname String required
+}
+
+//=========================================================================================
+//									RELATIONSHIPS
+//=========================================================================================
+
+relationship ManyToMany {
+	RestaurantWorker{employer(nameSlug)} to Restaurant{employee}
+}
+
+relationship ManyToOne {
+	Menu{restaurant(nameSlug)} to Restaurant{menu}
+}
+
+relationship ManyToMany {
+	Menu{foodItems(nameSlug)} to Food{menu}
+}
+
+relationship ManyToMany {
+	FoodOrder{foodItems(nameSlug)} to Food{order}
+}
+
+relationship ManyToOne {
+	FoodOrder{restaurant(nameSlug)} to Restaurant{order}
+}
+
+relationship ManyToOne {
+	FoodOrder{orderee(name)} to Customer{order}
+}
+
+relationship ManyToOne {
+	FoodOrder{delivery(name)} to DeliveryPersonnel{order}
+}
+
+relationship ManyToMany {
+	IngredientOrder{ingredientList(nameSlug)} to Ingredient{order}
+}
+
+relationship OneToMany {
+	Payment{method(paymentName)} to PaymentMethod{payment}
+}
+
+relationship OneToOne {
+	Translation{food(nameSlug)} to Food{translation}
+}
+
+relationship ManyToOne {
+	Translation{language(nameSlug)} to Language{translation}
+}
