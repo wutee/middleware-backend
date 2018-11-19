@@ -120,7 +120,7 @@ jhipster:
             port: 5000
             queue-size: 512
     cors:
-        allowed-origins: "*"
+        allowed-origins: "https://propsy-backend-v0.herokuapp.com:8080"
         allowed-methods: "*"
         allowed-headers: GET, PUT, POST, DELETE, OPTIONS
         exposed-headers: "Authorization,Link,X-Total-Count"
