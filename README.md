@@ -1,7 +1,13 @@
 # propsyBackendv01
 Aplikacja dostępna jest pod linkiem:
 [Panel Admina](https://propsy-backend-v0.herokuapp.com/#/)
-
+Dane do logowania:
+1) Admin
+login: admin
+haslo: admin
+2) user
+login: user
+haslo: user
 
 ## Development
 This application was generated using JHipster 5.5.0, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v5.5.0](https://www.jhipster.tech/documentation-archive/v5.5.0).
