@@ -42,6 +42,7 @@ public class PaymentMethodResource {
      * @return the ResponseEntity with status 201 (Created) and with body the new paymentMethod, or with status 400 (Bad Request) if the paymentMethod has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
+
     @PostMapping("/payment-methods")
     @Timed
     public ResponseEntity<PaymentMethod> createPaymentMethod(@Valid @RequestBody PaymentMethod paymentMethod) throws URISyntaxException {
