@@ -1,11 +1,15 @@
 # propsyBackendv01
 Aplikacja dostępna jest pod linkiem:
 [Panel Admina](https://propsy-backend-v0.herokuapp.com/#/)
+
 Dane do logowania:
+
 1) Admin
+
 login: admin
 haslo: admin
 2) user
+
 login: user
 haslo: user
 
