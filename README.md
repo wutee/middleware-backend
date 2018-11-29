@@ -99,34 +99,24 @@ will generate few files:
     update src/main/webapp/app/app.module.ts
 
 
-## Building for production
-
-To optimize the propsyBackendv01 application for production, run:
+## Building for production - [Using JHipster in production][]
 
     ./gradlew -Pprod clean bootWar
 
-This will concatenate and minify the client CSS and JavaScript files. It will also modify `index.html` so it references these new files.
-To ensure everything worked, run:
+Ensure everything's good
 
     java -jar build/libs/*.war
 
 Then navigate to [http://localhost:8080](http://localhost:8080) in your browser.
 
-Refer to [Using JHipster in production][] for more details.
-
 ## Testing
 
-To launch your application's tests, run:
 
     ./gradlew test
-
-### Client tests
-
-Unit tests are run by [Jest][] and written with [Jasmine][]. They're located in [src/test/javascript/](src/test/javascript/) and can be run with:
-
     npm test
 
-
+[Jest][] [Jasmine][] 
+They're located in [src/test/javascript/](src/test/javascript/) 
 
 For more information, refer to the [Running tests page][].
 

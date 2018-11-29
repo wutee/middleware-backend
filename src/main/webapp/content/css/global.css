@@ -87,6 +87,10 @@ Generic styles
 
 .footer {
     border-top: 1px solid rgba(0, 0, 0, 0.125);
+    margin: 10px 0;
+    padding: 10px 0;
+    font-size: 12px;
+    color: #0a0a0a;
 }
 
 .hand,

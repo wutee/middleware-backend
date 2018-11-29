@@ -4,7 +4,7 @@
     <base href="./" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>propsyBackendv01</title>
+    <title>wutee - propsy-backend</title>
     <meta name="description" content="">
     <meta name="google" value="notranslate">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -76,9 +76,10 @@
         // show an error message if the app loading takes more than 5 sec
         window.onload=function() {
             setTimeout(showError, 4000);
-        }
+        };
         function showError() {
-            document.getElementById("jhipster-error").style.display="block";
+            var el = document.getElementById("jhipster-error");
+            el ? el.style.display="block" : void 0;
         }
     </script>
     <!-- uncomment this for adding service worker

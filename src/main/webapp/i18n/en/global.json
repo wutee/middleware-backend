@@ -1,6 +1,6 @@
 {
     "global": {
-        "title": "PropsyBackendv01",
+        "title": "propsyBackend",
         "browsehappy": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.",
         "menu": {
             "home": "Home",
@@ -62,7 +62,7 @@
             "info": {
                 "authenticated": {
                     "prefix": "If you want to ",
-                    "link": "sign in",
+                    "link": "Sign in",
                     "suffix": ", you can try the default accounts:<br/>- Administrator (login=\"admin\" and password=\"admin\") <br/>- User (login=\"user\" and password=\"user\")."
                 },
                 "register": {
@@ -145,5 +145,5 @@
         "idexists": "A new {{ entityName }} cannot already have an ID",
         "idnull": "Invalid ID"
     },
-    "footer": "This is your footer"
+    "footer": "Pyszne 2.0 2018"
 }
