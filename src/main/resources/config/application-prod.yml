@@ -125,8 +125,6 @@ jhipster:
         allowed-headers: "*"
         exposed-headers: "Authorization,Link,X-Total-Count,Access-Token,Uid"
         allow-credentials: true
-        httpOnly: false
-        secure: false
         Max-Age: 1800
 
 # ===================================================================
