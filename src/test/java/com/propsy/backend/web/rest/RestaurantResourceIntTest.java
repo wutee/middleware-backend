@@ -1,6 +1,6 @@
 package com.propsy.backend.web.rest;
 
-import com.propsy.backend.PropsyBackendv01App;
+import com.propsy.backend.PropsyBackendJwtApp;
 
 import com.propsy.backend.domain.Restaurant;
 import com.propsy.backend.repository.RestaurantRepository;
@@ -19,6 +19,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
+import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -36,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @see RestaurantResource
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = PropsyBackendv01App.class)
+@SpringBootTest(classes = PropsyBackendJwtApp.class)
 public class RestaurantResourceIntTest {
 
     private static final String DEFAULT_NAME_SLUG = "AAAAAAAAAA";
@@ -45,8 +47,19 @@ public class RestaurantResourceIntTest {
     private static final String DEFAULT_ADDRESS = "AAAAAAAAAA";
     private static final String UPDATED_ADDRESS = "BBBBBBBBBB";
 
-    private static final String DEFAULT_OWNER_ID = "AAAAAAAAAA";
-    private static final String UPDATED_OWNER_ID = "BBBBBBBBBB";
+    private static final String DEFAULT_CITY = "AAAAAAAAAA";
+    private static final String UPDATED_CITY = "BBBBBBBBBB";
+
+    private static final Double DEFAULT_LATITUDE = 1D;
+    private static final Double UPDATED_LATITUDE = 2D;
+
+    private static final Double DEFAULT_LONGITUDE = 1D;
+    private static final Double UPDATED_LONGITUDE = 2D;
+
+    private static final byte[] DEFAULT_PHOTO_BLOB = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_PHOTO_BLOB = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_PHOTO_BLOB_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_PHOTO_BLOB_CONTENT_TYPE = "image/png";
 
     @Autowired
     private RestaurantRepository restaurantRepository;
@@ -63,6 +76,9 @@ public class RestaurantResourceIntTest {
     @Autowired
     private EntityManager em;
 
+    @Autowired
+    private Validator validator;
+
     private MockMvc restRestaurantMockMvc;
 
     private Restaurant restaurant;
@@ -75,7 +91,8 @@ public class RestaurantResourceIntTest {
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
             .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter).build();
+            .setMessageConverters(jacksonMessageConverter)
+            .setValidator(validator).build();
     }
 
     /**
@@ -88,7 +105,11 @@ public class RestaurantResourceIntTest {
         Restaurant restaurant = new Restaurant()
             .nameSlug(DEFAULT_NAME_SLUG)
             .address(DEFAULT_ADDRESS)
-            .ownerId(DEFAULT_OWNER_ID);
+            .city(DEFAULT_CITY)
+            .latitude(DEFAULT_LATITUDE)
+            .longitude(DEFAULT_LONGITUDE)
+            .photoBlob(DEFAULT_PHOTO_BLOB)
+            .photoBlobContentType(DEFAULT_PHOTO_BLOB_CONTENT_TYPE);
         return restaurant;
     }
 
@@ -114,7 +135,11 @@ public class RestaurantResourceIntTest {
         Restaurant testRestaurant = restaurantList.get(restaurantList.size() - 1);
         assertThat(testRestaurant.getNameSlug()).isEqualTo(DEFAULT_NAME_SLUG);
         assertThat(testRestaurant.getAddress()).isEqualTo(DEFAULT_ADDRESS);
-        assertThat(testRestaurant.getOwnerId()).isEqualTo(DEFAULT_OWNER_ID);
+        assertThat(testRestaurant.getCity()).isEqualTo(DEFAULT_CITY);
+        assertThat(testRestaurant.getLatitude()).isEqualTo(DEFAULT_LATITUDE);
+        assertThat(testRestaurant.getLongitude()).isEqualTo(DEFAULT_LONGITUDE);
+        assertThat(testRestaurant.getPhotoBlob()).isEqualTo(DEFAULT_PHOTO_BLOB);
+        assertThat(testRestaurant.getPhotoBlobContentType()).isEqualTo(DEFAULT_PHOTO_BLOB_CONTENT_TYPE);
     }
 
     @Test
@@ -167,7 +192,11 @@ public class RestaurantResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(restaurant.getId().intValue())))
             .andExpect(jsonPath("$.[*].nameSlug").value(hasItem(DEFAULT_NAME_SLUG.toString())))
             .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS.toString())))
-            .andExpect(jsonPath("$.[*].ownerId").value(hasItem(DEFAULT_OWNER_ID.toString())));
+            .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY.toString())))
+            .andExpect(jsonPath("$.[*].latitude").value(hasItem(DEFAULT_LATITUDE.doubleValue())))
+            .andExpect(jsonPath("$.[*].longitude").value(hasItem(DEFAULT_LONGITUDE.doubleValue())))
+            .andExpect(jsonPath("$.[*].photoBlobContentType").value(hasItem(DEFAULT_PHOTO_BLOB_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].photoBlob").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO_BLOB))));
     }
     
     @Test
@@ -183,7 +212,11 @@ public class RestaurantResourceIntTest {
             .andExpect(jsonPath("$.id").value(restaurant.getId().intValue()))
             .andExpect(jsonPath("$.nameSlug").value(DEFAULT_NAME_SLUG.toString()))
             .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS.toString()))
-            .andExpect(jsonPath("$.ownerId").value(DEFAULT_OWNER_ID.toString()));
+            .andExpect(jsonPath("$.city").value(DEFAULT_CITY.toString()))
+            .andExpect(jsonPath("$.latitude").value(DEFAULT_LATITUDE.doubleValue()))
+            .andExpect(jsonPath("$.longitude").value(DEFAULT_LONGITUDE.doubleValue()))
+            .andExpect(jsonPath("$.photoBlobContentType").value(DEFAULT_PHOTO_BLOB_CONTENT_TYPE))
+            .andExpect(jsonPath("$.photoBlob").value(Base64Utils.encodeToString(DEFAULT_PHOTO_BLOB)));
     }
 
     @Test
@@ -209,7 +242,11 @@ public class RestaurantResourceIntTest {
         updatedRestaurant
             .nameSlug(UPDATED_NAME_SLUG)
             .address(UPDATED_ADDRESS)
-            .ownerId(UPDATED_OWNER_ID);
+            .city(UPDATED_CITY)
+            .latitude(UPDATED_LATITUDE)
+            .longitude(UPDATED_LONGITUDE)
+            .photoBlob(UPDATED_PHOTO_BLOB)
+            .photoBlobContentType(UPDATED_PHOTO_BLOB_CONTENT_TYPE);
 
         restRestaurantMockMvc.perform(put("/api/restaurants")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -222,7 +259,11 @@ public class RestaurantResourceIntTest {
         Restaurant testRestaurant = restaurantList.get(restaurantList.size() - 1);
         assertThat(testRestaurant.getNameSlug()).isEqualTo(UPDATED_NAME_SLUG);
         assertThat(testRestaurant.getAddress()).isEqualTo(UPDATED_ADDRESS);
-        assertThat(testRestaurant.getOwnerId()).isEqualTo(UPDATED_OWNER_ID);
+        assertThat(testRestaurant.getCity()).isEqualTo(UPDATED_CITY);
+        assertThat(testRestaurant.getLatitude()).isEqualTo(UPDATED_LATITUDE);
+        assertThat(testRestaurant.getLongitude()).isEqualTo(UPDATED_LONGITUDE);
+        assertThat(testRestaurant.getPhotoBlob()).isEqualTo(UPDATED_PHOTO_BLOB);
+        assertThat(testRestaurant.getPhotoBlobContentType()).isEqualTo(UPDATED_PHOTO_BLOB_CONTENT_TYPE);
     }
 
     @Test

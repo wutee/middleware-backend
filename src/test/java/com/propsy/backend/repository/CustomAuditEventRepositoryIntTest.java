@@ -1,6 +1,6 @@
 package com.propsy.backend.repository;
 
-import com.propsy.backend.PropsyBackendv01App;
+import com.propsy.backend.PropsyBackendJwtApp;
 import com.propsy.backend.config.Constants;
 import com.propsy.backend.config.audit.AuditEventConverter;
 import com.propsy.backend.domain.PersistentAuditEvent;
@@ -31,7 +31,7 @@ import static com.propsy.backend.repository.CustomAuditEventRepository.EVENT_DAT
  * @see CustomAuditEventRepository
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = PropsyBackendv01App.class)
+@SpringBootTest(classes = PropsyBackendJwtApp.class)
 @Transactional
 public class CustomAuditEventRepositoryIntTest {
 

@@ -1,6 +1,6 @@
 package com.propsy.backend.web.rest.errors;
 
-import com.propsy.backend.PropsyBackendv01App;
+import com.propsy.backend.PropsyBackendJwtApp;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @see ExceptionTranslator
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = PropsyBackendv01App.class)
+@SpringBootTest(classes = PropsyBackendJwtApp.class)
 public class ExceptionTranslatorIntTest {
 
     @Autowired

@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 
-import { PropsyBackendv01TestModule } from '../../../test.module';
+import { PropsyBackendJwtTestModule } from '../../../test.module';
 import { MenuComponent } from 'app/entities/menu/menu.component';
 import { MenuService } from 'app/entities/menu/menu.service';
 import { Menu } from 'app/shared/model/menu.model';
@@ -16,7 +16,7 @@ describe('Component Tests', () => {
 
         beforeEach(() => {
             TestBed.configureTestingModule({
-                imports: [PropsyBackendv01TestModule],
+                imports: [PropsyBackendJwtTestModule],
                 declarations: [MenuComponent],
                 providers: []
             })

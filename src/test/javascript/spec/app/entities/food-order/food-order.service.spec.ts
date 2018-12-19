@@ -7,7 +7,7 @@ import { take, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { FoodOrderService } from 'app/entities/food-order/food-order.service';
-import { IFoodOrder, FoodOrder } from 'app/shared/model/food-order.model';
+import { IFoodOrder, FoodOrder, OrderStatus } from 'app/shared/model/food-order.model';
 
 describe('Service Tests', () => {
     describe('FoodOrder Service', () => {
@@ -25,15 +25,29 @@ describe('Service Tests', () => {
             httpMock = injector.get(HttpTestingController);
             currentDate = moment();
 
-            elemDefault = new FoodOrder(0, currentDate, currentDate, 0, 0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 0);
+            elemDefault = new FoodOrder(
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                currentDate,
+                0,
+                OrderStatus.NEW,
+                'AAAAAAA',
+                'AAAAAAA',
+                'AAAAAAA',
+                'AAAAAAA',
+                'AAAAAAA'
+            );
         });
 
         describe('Service methods', async () => {
             it('should find an element', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        date: currentDate.format(DATE_FORMAT),
-                        lastUpdatedDate: currentDate.format(DATE_FORMAT)
+                        date: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
@@ -50,15 +64,13 @@ describe('Service Tests', () => {
                 const returnedFromService = Object.assign(
                     {
                         id: 0,
-                        date: currentDate.format(DATE_FORMAT),
-                        lastUpdatedDate: currentDate.format(DATE_FORMAT)
+                        date: currentDate.format(DATE_FORMAT)
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
-                        date: currentDate,
-                        lastUpdatedDate: currentDate
+                        date: currentDate
                     },
                     returnedFromService
                 );
@@ -73,22 +85,26 @@ describe('Service Tests', () => {
             it('should update a FoodOrder', async () => {
                 const returnedFromService = Object.assign(
                     {
+                        timeRating: 1,
+                        priceRating: 1,
+                        qualityRating: 1,
+                        loyaltyPoints: 1,
+                        addressRating: 1,
                         date: currentDate.format(DATE_FORMAT),
-                        lastUpdatedDate: currentDate.format(DATE_FORMAT),
-                        status: 1,
                         price: 1,
-                        userOpinion: 'BBBBBB',
-                        userComment: 'BBBBBB',
-                        deliveryManComment: 'BBBBBB',
-                        loyaltyPoints: 1
+                        status: 'BBBBBB',
+                        purchaserOpinion: 'BBBBBB',
+                        purchaserComment: 'BBBBBB',
+                        city: 'BBBBBB',
+                        phone: 'BBBBBB',
+                        address: 'BBBBBB'
                     },
                     elemDefault
                 );
 
                 const expected = Object.assign(
                     {
-                        date: currentDate,
-                        lastUpdatedDate: currentDate
+                        date: currentDate
                     },
                     returnedFromService
                 );
@@ -103,27 +119,34 @@ describe('Service Tests', () => {
             it('should return a list of FoodOrder', async () => {
                 const returnedFromService = Object.assign(
                     {
+                        timeRating: 1,
+                        priceRating: 1,
+                        qualityRating: 1,
+                        loyaltyPoints: 1,
+                        addressRating: 1,
                         date: currentDate.format(DATE_FORMAT),
-                        lastUpdatedDate: currentDate.format(DATE_FORMAT),
-                        status: 1,
                         price: 1,
-                        userOpinion: 'BBBBBB',
-                        userComment: 'BBBBBB',
-                        deliveryManComment: 'BBBBBB',
-                        loyaltyPoints: 1
+                        status: 'BBBBBB',
+                        purchaserOpinion: 'BBBBBB',
+                        purchaserComment: 'BBBBBB',
+                        city: 'BBBBBB',
+                        phone: 'BBBBBB',
+                        address: 'BBBBBB'
                     },
                     elemDefault
                 );
                 const expected = Object.assign(
                     {
-                        date: currentDate,
-                        lastUpdatedDate: currentDate
+                        date: currentDate
                     },
                     returnedFromService
                 );
                 service
                     .query(expected)
-                    .pipe(take(1), map(resp => resp.body))
+                    .pipe(
+                        take(1),
+                        map(resp => resp.body)
+                    )
                     .subscribe(body => expect(body).toContainEqual(expected));
                 const req = httpMock.expectOne({ method: 'GET' });
                 req.flush(JSON.stringify([returnedFromService]));

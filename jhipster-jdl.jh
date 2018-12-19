@@ -3,17 +3,17 @@
 //=====================================================================================
 
 entity Restaurant {
-	nameSlug String required minlength(2) maxlength(250)
-    address String maxlength(250)
-    city String maxlength(250)
     latitude Double
     longitude Double
     photoBlob ImageBlob
+	city String maxlength(250)
+    address String maxlength(250)
+    nameSlug String required minlength(2) maxlength(250)
 }
 
 entity Menu {
-	nameSlug String required minlength(2) maxlength(250)
     photoBlob ImageBlob
+	nameSlug String required minlength(2) maxlength(250)
 }
 
 entity Food {

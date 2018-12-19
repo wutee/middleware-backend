@@ -21,7 +21,7 @@ describe('Service Tests', () => {
             service = injector.get(MenuService);
             httpMock = injector.get(HttpTestingController);
 
-            elemDefault = new Menu(0, 'AAAAAAA');
+            elemDefault = new Menu(0, 'AAAAAAA', 'image/png', 'AAAAAAA');
         });
 
         describe('Service methods', async () => {
@@ -55,7 +55,8 @@ describe('Service Tests', () => {
             it('should update a Menu', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        nameSlug: 'BBBBBB'
+                        nameSlug: 'BBBBBB',
+                        photoBlob: 'BBBBBB'
                     },
                     elemDefault
                 );
@@ -72,14 +73,18 @@ describe('Service Tests', () => {
             it('should return a list of Menu', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        nameSlug: 'BBBBBB'
+                        nameSlug: 'BBBBBB',
+                        photoBlob: 'BBBBBB'
                     },
                     elemDefault
                 );
                 const expected = Object.assign({}, returnedFromService);
                 service
                     .query(expected)
-                    .pipe(take(1), map(resp => resp.body))
+                    .pipe(
+                        take(1),
+                        map(resp => resp.body)
+                    )
                     .subscribe(body => expect(body).toContainEqual(expected));
                 const req = httpMock.expectOne({ method: 'GET' });
                 req.flush(JSON.stringify([returnedFromService]));

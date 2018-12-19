@@ -1,6 +1,6 @@
 {
     "global": {
-        "title": "propsy",
+        "title": "PropsyBackendJwt",
         "browsehappy": "Używasz <strong>przestarzałej</strong> przeglądarki. Proszę <a href=\"http://browsehappy.com/\">uaktualnij swoją przeglądarkę</a> aby poprawić wrażenia z użytkowania tej aplikacji.",
         "menu": {
             "home": "Strona domowa",
@@ -8,18 +8,11 @@
             "entities": {
                 "main": "Encje",
                 "restaurant": "Restaurant",
-                "restaurantWorker": "Restaurant Worker",
                 "menu": "Menu",
                 "food": "Food",
                 "foodOrder": "Food Order",
-                "payment": "Payment",
-                "paymentMethod": "Payment Method",
-                "customer": "Customer",
-                "translation": "Translation",
-                "language": "Language",
-                "ingredient": "Ingredient",
-                "ingredientOrder": "Ingredient Order",
-                "deliveryPersonnel": "Delivery Personnel",
+                "foodOrderMovement": "Food Order Movement",
+                "extendedUser": "Extended User",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
@@ -94,10 +87,10 @@
             }
         },
         "field": {
-            "id" : "ID"
+            "id": "ID"
         },
         "ribbon": {
-            "dev":"Development"
+            "dev": "Development"
         },
         "item-count": "Wyświetlono {{first}} - {{second}} z {{total}} elementów."
     },
@@ -144,5 +137,5 @@
         "idexists": "Nowy {{entityName}} nie może jeszcze mieć przypisanego ID",
         "idnull": "Błędne ID"
     },
-    "footer": "Pyszne 2.0 2018"
+    "footer": "To jest stopka"
 }

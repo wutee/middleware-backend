@@ -1,6 +1,6 @@
 package com.propsy.backend.web.rest;
 
-import com.propsy.backend.PropsyBackendv01App;
+import com.propsy.backend.PropsyBackendJwtApp;
 
 import com.propsy.backend.domain.Food;
 import com.propsy.backend.repository.FoodRepository;
@@ -19,6 +19,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
+import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -36,14 +38,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @see FoodResource
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = PropsyBackendv01App.class)
+@SpringBootTest(classes = PropsyBackendJwtApp.class)
 public class FoodResourceIntTest {
 
     private static final String DEFAULT_NAME_SLUG = "AAAAAAAAAA";
     private static final String UPDATED_NAME_SLUG = "BBBBBBBBBB";
 
-    private static final Float DEFAULT_PRICE = 1F;
-    private static final Float UPDATED_PRICE = 2F;
+    private static final Float DEFAULT_PRICE = 0F;
+    private static final Float UPDATED_PRICE = 1F;
 
     private static final String DEFAULT_FOOD_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_FOOD_DESCRIPTION = "BBBBBBBBBB";
@@ -60,8 +62,10 @@ public class FoodResourceIntTest {
     private static final Boolean DEFAULT_IS_GLUTEN_FREE = false;
     private static final Boolean UPDATED_IS_GLUTEN_FREE = true;
 
-    private static final String DEFAULT_PHOTO_LOCATION = "AAAAAAAAAA";
-    private static final String UPDATED_PHOTO_LOCATION = "BBBBBBBBBB";
+    private static final byte[] DEFAULT_PHOTO_BLOB = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_PHOTO_BLOB = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_PHOTO_BLOB_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_PHOTO_BLOB_CONTENT_TYPE = "image/png";
 
     @Autowired
     private FoodRepository foodRepository;
@@ -78,6 +82,9 @@ public class FoodResourceIntTest {
     @Autowired
     private EntityManager em;
 
+    @Autowired
+    private Validator validator;
+
     private MockMvc restFoodMockMvc;
 
     private Food food;
@@ -90,7 +97,8 @@ public class FoodResourceIntTest {
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
             .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter).build();
+            .setMessageConverters(jacksonMessageConverter)
+            .setValidator(validator).build();
     }
 
     /**
@@ -108,7 +116,8 @@ public class FoodResourceIntTest {
             .isSpicy(DEFAULT_IS_SPICY)
             .isVegetarian(DEFAULT_IS_VEGETARIAN)
             .isGlutenFree(DEFAULT_IS_GLUTEN_FREE)
-            .photoLocation(DEFAULT_PHOTO_LOCATION);
+            .photoBlob(DEFAULT_PHOTO_BLOB)
+            .photoBlobContentType(DEFAULT_PHOTO_BLOB_CONTENT_TYPE);
         return food;
     }
 
@@ -139,7 +148,8 @@ public class FoodResourceIntTest {
         assertThat(testFood.isIsSpicy()).isEqualTo(DEFAULT_IS_SPICY);
         assertThat(testFood.isIsVegetarian()).isEqualTo(DEFAULT_IS_VEGETARIAN);
         assertThat(testFood.isIsGlutenFree()).isEqualTo(DEFAULT_IS_GLUTEN_FREE);
-        assertThat(testFood.getPhotoLocation()).isEqualTo(DEFAULT_PHOTO_LOCATION);
+        assertThat(testFood.getPhotoBlob()).isEqualTo(DEFAULT_PHOTO_BLOB);
+        assertThat(testFood.getPhotoBlobContentType()).isEqualTo(DEFAULT_PHOTO_BLOB_CONTENT_TYPE);
     }
 
     @Test
@@ -215,7 +225,8 @@ public class FoodResourceIntTest {
             .andExpect(jsonPath("$.[*].isSpicy").value(hasItem(DEFAULT_IS_SPICY.booleanValue())))
             .andExpect(jsonPath("$.[*].isVegetarian").value(hasItem(DEFAULT_IS_VEGETARIAN.booleanValue())))
             .andExpect(jsonPath("$.[*].isGlutenFree").value(hasItem(DEFAULT_IS_GLUTEN_FREE.booleanValue())))
-            .andExpect(jsonPath("$.[*].photoLocation").value(hasItem(DEFAULT_PHOTO_LOCATION.toString())));
+            .andExpect(jsonPath("$.[*].photoBlobContentType").value(hasItem(DEFAULT_PHOTO_BLOB_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].photoBlob").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO_BLOB))));
     }
     
     @Test
@@ -236,7 +247,8 @@ public class FoodResourceIntTest {
             .andExpect(jsonPath("$.isSpicy").value(DEFAULT_IS_SPICY.booleanValue()))
             .andExpect(jsonPath("$.isVegetarian").value(DEFAULT_IS_VEGETARIAN.booleanValue()))
             .andExpect(jsonPath("$.isGlutenFree").value(DEFAULT_IS_GLUTEN_FREE.booleanValue()))
-            .andExpect(jsonPath("$.photoLocation").value(DEFAULT_PHOTO_LOCATION.toString()));
+            .andExpect(jsonPath("$.photoBlobContentType").value(DEFAULT_PHOTO_BLOB_CONTENT_TYPE))
+            .andExpect(jsonPath("$.photoBlob").value(Base64Utils.encodeToString(DEFAULT_PHOTO_BLOB)));
     }
 
     @Test
@@ -267,7 +279,8 @@ public class FoodResourceIntTest {
             .isSpicy(UPDATED_IS_SPICY)
             .isVegetarian(UPDATED_IS_VEGETARIAN)
             .isGlutenFree(UPDATED_IS_GLUTEN_FREE)
-            .photoLocation(UPDATED_PHOTO_LOCATION);
+            .photoBlob(UPDATED_PHOTO_BLOB)
+            .photoBlobContentType(UPDATED_PHOTO_BLOB_CONTENT_TYPE);
 
         restFoodMockMvc.perform(put("/api/foods")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -285,7 +298,8 @@ public class FoodResourceIntTest {
         assertThat(testFood.isIsSpicy()).isEqualTo(UPDATED_IS_SPICY);
         assertThat(testFood.isIsVegetarian()).isEqualTo(UPDATED_IS_VEGETARIAN);
         assertThat(testFood.isIsGlutenFree()).isEqualTo(UPDATED_IS_GLUTEN_FREE);
-        assertThat(testFood.getPhotoLocation()).isEqualTo(UPDATED_PHOTO_LOCATION);
+        assertThat(testFood.getPhotoBlob()).isEqualTo(UPDATED_PHOTO_BLOB);
+        assertThat(testFood.getPhotoBlobContentType()).isEqualTo(UPDATED_PHOTO_BLOB_CONTENT_TYPE);
     }
 
     @Test

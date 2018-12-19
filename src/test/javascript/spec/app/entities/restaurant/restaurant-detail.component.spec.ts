@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
-import { PropsyBackendv01TestModule } from '../../../test.module';
+import { PropsyBackendJwtTestModule } from '../../../test.module';
 import { RestaurantDetailComponent } from 'app/entities/restaurant/restaurant-detail.component';
 import { Restaurant } from 'app/shared/model/restaurant.model';
 
@@ -15,7 +15,7 @@ describe('Component Tests', () => {
 
         beforeEach(() => {
             TestBed.configureTestingModule({
-                imports: [PropsyBackendv01TestModule],
+                imports: [PropsyBackendJwtTestModule],
                 declarations: [RestaurantDetailComponent],
                 providers: [{ provide: ActivatedRoute, useValue: route }]
             })

@@ -1,6 +1,6 @@
 package com.propsy.backend.web.rest;
 
-import com.propsy.backend.PropsyBackendv01App;
+import com.propsy.backend.PropsyBackendJwtApp;
 
 import com.propsy.backend.domain.Menu;
 import com.propsy.backend.repository.MenuRepository;
@@ -22,6 +22,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
+import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
@@ -41,11 +43,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @see MenuResource
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = PropsyBackendv01App.class)
+@SpringBootTest(classes = PropsyBackendJwtApp.class)
 public class MenuResourceIntTest {
 
     private static final String DEFAULT_NAME_SLUG = "AAAAAAAAAA";
     private static final String UPDATED_NAME_SLUG = "BBBBBBBBBB";
+
+    private static final byte[] DEFAULT_PHOTO_BLOB = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_PHOTO_BLOB = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_PHOTO_BLOB_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_PHOTO_BLOB_CONTENT_TYPE = "image/png";
 
     @Autowired
     private MenuRepository menuRepository;
@@ -65,6 +72,9 @@ public class MenuResourceIntTest {
     @Autowired
     private EntityManager em;
 
+    @Autowired
+    private Validator validator;
+
     private MockMvc restMenuMockMvc;
 
     private Menu menu;
@@ -77,7 +87,8 @@ public class MenuResourceIntTest {
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
             .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter).build();
+            .setMessageConverters(jacksonMessageConverter)
+            .setValidator(validator).build();
     }
 
     /**
@@ -88,7 +99,9 @@ public class MenuResourceIntTest {
      */
     public static Menu createEntity(EntityManager em) {
         Menu menu = new Menu()
-            .nameSlug(DEFAULT_NAME_SLUG);
+            .nameSlug(DEFAULT_NAME_SLUG)
+            .photoBlob(DEFAULT_PHOTO_BLOB)
+            .photoBlobContentType(DEFAULT_PHOTO_BLOB_CONTENT_TYPE);
         return menu;
     }
 
@@ -113,6 +126,8 @@ public class MenuResourceIntTest {
         assertThat(menuList).hasSize(databaseSizeBeforeCreate + 1);
         Menu testMenu = menuList.get(menuList.size() - 1);
         assertThat(testMenu.getNameSlug()).isEqualTo(DEFAULT_NAME_SLUG);
+        assertThat(testMenu.getPhotoBlob()).isEqualTo(DEFAULT_PHOTO_BLOB);
+        assertThat(testMenu.getPhotoBlobContentType()).isEqualTo(DEFAULT_PHOTO_BLOB_CONTENT_TYPE);
     }
 
     @Test
@@ -136,6 +151,24 @@ public class MenuResourceIntTest {
 
     @Test
     @Transactional
+    public void checkNameSlugIsRequired() throws Exception {
+        int databaseSizeBeforeTest = menuRepository.findAll().size();
+        // set the field null
+        menu.setNameSlug(null);
+
+        // Create the Menu, which fails.
+
+        restMenuMockMvc.perform(post("/api/menus")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(menu)))
+            .andExpect(status().isBadRequest());
+
+        List<Menu> menuList = menuRepository.findAll();
+        assertThat(menuList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllMenus() throws Exception {
         // Initialize the database
         menuRepository.saveAndFlush(menu);
@@ -145,9 +178,12 @@ public class MenuResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(menu.getId().intValue())))
-            .andExpect(jsonPath("$.[*].nameSlug").value(hasItem(DEFAULT_NAME_SLUG.toString())));
+            .andExpect(jsonPath("$.[*].nameSlug").value(hasItem(DEFAULT_NAME_SLUG.toString())))
+            .andExpect(jsonPath("$.[*].photoBlobContentType").value(hasItem(DEFAULT_PHOTO_BLOB_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].photoBlob").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO_BLOB))));
     }
     
+    @SuppressWarnings({"unchecked"})
     public void getAllMenusWithEagerRelationshipsIsEnabled() throws Exception {
         MenuResource menuResource = new MenuResource(menuRepositoryMock);
         when(menuRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
@@ -164,6 +200,7 @@ public class MenuResourceIntTest {
         verify(menuRepositoryMock, times(1)).findAllWithEagerRelationships(any());
     }
 
+    @SuppressWarnings({"unchecked"})
     public void getAllMenusWithEagerRelationshipsIsNotEnabled() throws Exception {
         MenuResource menuResource = new MenuResource(menuRepositoryMock);
             when(menuRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
@@ -190,7 +227,9 @@ public class MenuResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(menu.getId().intValue()))
-            .andExpect(jsonPath("$.nameSlug").value(DEFAULT_NAME_SLUG.toString()));
+            .andExpect(jsonPath("$.nameSlug").value(DEFAULT_NAME_SLUG.toString()))
+            .andExpect(jsonPath("$.photoBlobContentType").value(DEFAULT_PHOTO_BLOB_CONTENT_TYPE))
+            .andExpect(jsonPath("$.photoBlob").value(Base64Utils.encodeToString(DEFAULT_PHOTO_BLOB)));
     }
 
     @Test
@@ -214,7 +253,9 @@ public class MenuResourceIntTest {
         // Disconnect from session so that the updates on updatedMenu are not directly saved in db
         em.detach(updatedMenu);
         updatedMenu
-            .nameSlug(UPDATED_NAME_SLUG);
+            .nameSlug(UPDATED_NAME_SLUG)
+            .photoBlob(UPDATED_PHOTO_BLOB)
+            .photoBlobContentType(UPDATED_PHOTO_BLOB_CONTENT_TYPE);
 
         restMenuMockMvc.perform(put("/api/menus")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -226,6 +267,8 @@ public class MenuResourceIntTest {
         assertThat(menuList).hasSize(databaseSizeBeforeUpdate);
         Menu testMenu = menuList.get(menuList.size() - 1);
         assertThat(testMenu.getNameSlug()).isEqualTo(UPDATED_NAME_SLUG);
+        assertThat(testMenu.getPhotoBlob()).isEqualTo(UPDATED_PHOTO_BLOB);
+        assertThat(testMenu.getPhotoBlobContentType()).isEqualTo(UPDATED_PHOTO_BLOB_CONTENT_TYPE);
     }
 
     @Test

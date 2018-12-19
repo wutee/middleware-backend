@@ -21,7 +21,7 @@ describe('Service Tests', () => {
             service = injector.get(FoodService);
             httpMock = injector.get(HttpTestingController);
 
-            elemDefault = new Food(0, 'AAAAAAA', 0, 'AAAAAAA', 0, false, false, false, 'AAAAAAA');
+            elemDefault = new Food(0, 'AAAAAAA', 0, 'AAAAAAA', 0, false, false, false, 'image/png', 'AAAAAAA');
         });
 
         describe('Service methods', async () => {
@@ -62,7 +62,7 @@ describe('Service Tests', () => {
                         isSpicy: true,
                         isVegetarian: true,
                         isGlutenFree: true,
-                        photoLocation: 'BBBBBB'
+                        photoBlob: 'BBBBBB'
                     },
                     elemDefault
                 );
@@ -86,14 +86,17 @@ describe('Service Tests', () => {
                         isSpicy: true,
                         isVegetarian: true,
                         isGlutenFree: true,
-                        photoLocation: 'BBBBBB'
+                        photoBlob: 'BBBBBB'
                     },
                     elemDefault
                 );
                 const expected = Object.assign({}, returnedFromService);
                 service
                     .query(expected)
-                    .pipe(take(1), map(resp => resp.body))
+                    .pipe(
+                        take(1),
+                        map(resp => resp.body)
+                    )
                     .subscribe(body => expect(body).toContainEqual(expected));
                 const req = httpMock.expectOne({ method: 'GET' });
                 req.flush(JSON.stringify([returnedFromService]));

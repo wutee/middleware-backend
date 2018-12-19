@@ -11,6 +11,10 @@
             "error": "Błąd"
         },
         "indicator": {
+            "discoveryComposite": "Discovery Composite",
+            "refreshScope": "Obszar aktualizacji mikroserwisów",
+            "configServer": "Serwer konfiguracyjny mikroserwisów",
+            "hystrix": "Hystrix",
             "diskSpace": "Przestrzeń dyskowa",
             "mail": "Email",
             "db": "Baza danych"

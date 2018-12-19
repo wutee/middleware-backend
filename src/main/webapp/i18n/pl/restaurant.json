@@ -1,7 +1,6 @@
-
 {
-    "propsyBackendv01App": {
-        "restaurant" : {
+    "propsyBackendJwtApp": {
+        "restaurant": {
             "home": {
                 "title": "Restaurant",
                 "createLabel": "Dodaj Restaurant",
@@ -18,10 +17,13 @@
             },
             "nameSlug": "Name Slug",
             "address": "Address",
-            "ownerId": "Owner Id",
-            "menu": "Menu",
+            "city": "City",
+            "latitude": "Latitude",
+            "longitude": "Longitude",
+            "photoBlob": "Photo Blob",
+            "worker": "Worker",
             "order": "Order",
-            "employee": "Employee"
+            "menu": "Menu"
         }
     }
 }

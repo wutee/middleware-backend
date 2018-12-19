@@ -1,6 +1,6 @@
 package com.propsy.backend.web.rest;
 
-import com.propsy.backend.PropsyBackendv01App;
+import com.propsy.backend.PropsyBackendJwtApp;
 
 import com.propsy.backend.domain.FoodOrder;
 import com.propsy.backend.repository.FoodOrderRepository;
@@ -22,6 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
@@ -37,38 +38,54 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.propsy.backend.domain.enumeration.OrderStatus;
 /**
  * Test class for the FoodOrderResource REST controller.
  *
  * @see FoodOrderResource
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = PropsyBackendv01App.class)
+@SpringBootTest(classes = PropsyBackendJwtApp.class)
 public class FoodOrderResourceIntTest {
+
+    private static final Integer DEFAULT_TIME_RATING = 1;
+    private static final Integer UPDATED_TIME_RATING = 2;
+
+    private static final Integer DEFAULT_PRICE_RATING = 1;
+    private static final Integer UPDATED_PRICE_RATING = 2;
+
+    private static final Integer DEFAULT_QUALITY_RATING = 1;
+    private static final Integer UPDATED_QUALITY_RATING = 2;
+
+    private static final Integer DEFAULT_LOYALTY_POINTS = 1;
+    private static final Integer UPDATED_LOYALTY_POINTS = 2;
+
+    private static final Integer DEFAULT_ADDRESS_RATING = 1;
+    private static final Integer UPDATED_ADDRESS_RATING = 2;
 
     private static final LocalDate DEFAULT_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_DATE = LocalDate.now(ZoneId.systemDefault());
 
-    private static final LocalDate DEFAULT_LAST_UPDATED_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_LAST_UPDATED_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final Float DEFAULT_PRICE = 0F;
+    private static final Float UPDATED_PRICE = 1F;
 
-    private static final Integer DEFAULT_STATUS = 1;
-    private static final Integer UPDATED_STATUS = 2;
+    private static final OrderStatus DEFAULT_STATUS = OrderStatus.NEW;
+    private static final OrderStatus UPDATED_STATUS = OrderStatus.PAYMENT;
 
-    private static final Float DEFAULT_PRICE = 1F;
-    private static final Float UPDATED_PRICE = 2F;
+    private static final String DEFAULT_PURCHASER_OPINION = "AAAAAAAAAA";
+    private static final String UPDATED_PURCHASER_OPINION = "BBBBBBBBBB";
 
-    private static final String DEFAULT_USER_OPINION = "AAAAAAAAAA";
-    private static final String UPDATED_USER_OPINION = "BBBBBBBBBB";
+    private static final String DEFAULT_PURCHASER_COMMENT = "AAAAAAAAAA";
+    private static final String UPDATED_PURCHASER_COMMENT = "BBBBBBBBBB";
 
-    private static final String DEFAULT_USER_COMMENT = "AAAAAAAAAA";
-    private static final String UPDATED_USER_COMMENT = "BBBBBBBBBB";
+    private static final String DEFAULT_CITY = "AAAAAAAAAA";
+    private static final String UPDATED_CITY = "BBBBBBBBBB";
 
-    private static final String DEFAULT_DELIVERY_MAN_COMMENT = "AAAAAAAAAA";
-    private static final String UPDATED_DELIVERY_MAN_COMMENT = "BBBBBBBBBB";
+    private static final String DEFAULT_PHONE = "AAAAAAAAAA";
+    private static final String UPDATED_PHONE = "BBBBBBBBBB";
 
-    private static final Integer DEFAULT_LOYALTY_POINTS = 1;
-    private static final Integer UPDATED_LOYALTY_POINTS = 2;
+    private static final String DEFAULT_ADDRESS = "AAAAAAAAAA";
+    private static final String UPDATED_ADDRESS = "BBBBBBBBBB";
 
     @Autowired
     private FoodOrderRepository foodOrderRepository;
@@ -88,6 +105,9 @@ public class FoodOrderResourceIntTest {
     @Autowired
     private EntityManager em;
 
+    @Autowired
+    private Validator validator;
+
     private MockMvc restFoodOrderMockMvc;
 
     private FoodOrder foodOrder;
@@ -100,7 +120,8 @@ public class FoodOrderResourceIntTest {
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
             .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter).build();
+            .setMessageConverters(jacksonMessageConverter)
+            .setValidator(validator).build();
     }
 
     /**
@@ -111,14 +132,19 @@ public class FoodOrderResourceIntTest {
      */
     public static FoodOrder createEntity(EntityManager em) {
         FoodOrder foodOrder = new FoodOrder()
+            .timeRating(DEFAULT_TIME_RATING)
+            .priceRating(DEFAULT_PRICE_RATING)
+            .qualityRating(DEFAULT_QUALITY_RATING)
+            .loyaltyPoints(DEFAULT_LOYALTY_POINTS)
+            .addressRating(DEFAULT_ADDRESS_RATING)
             .date(DEFAULT_DATE)
-            .lastUpdatedDate(DEFAULT_LAST_UPDATED_DATE)
-            .status(DEFAULT_STATUS)
             .price(DEFAULT_PRICE)
-            .userOpinion(DEFAULT_USER_OPINION)
-            .userComment(DEFAULT_USER_COMMENT)
-            .deliveryManComment(DEFAULT_DELIVERY_MAN_COMMENT)
-            .loyaltyPoints(DEFAULT_LOYALTY_POINTS);
+            .status(DEFAULT_STATUS)
+            .purchaserOpinion(DEFAULT_PURCHASER_OPINION)
+            .purchaserComment(DEFAULT_PURCHASER_COMMENT)
+            .city(DEFAULT_CITY)
+            .phone(DEFAULT_PHONE)
+            .address(DEFAULT_ADDRESS);
         return foodOrder;
     }
 
@@ -142,14 +168,19 @@ public class FoodOrderResourceIntTest {
         List<FoodOrder> foodOrderList = foodOrderRepository.findAll();
         assertThat(foodOrderList).hasSize(databaseSizeBeforeCreate + 1);
         FoodOrder testFoodOrder = foodOrderList.get(foodOrderList.size() - 1);
-        assertThat(testFoodOrder.getDate()).isEqualTo(DEFAULT_DATE);
-        assertThat(testFoodOrder.getLastUpdatedDate()).isEqualTo(DEFAULT_LAST_UPDATED_DATE);
-        assertThat(testFoodOrder.getStatus()).isEqualTo(DEFAULT_STATUS);
-        assertThat(testFoodOrder.getPrice()).isEqualTo(DEFAULT_PRICE);
-        assertThat(testFoodOrder.getUserOpinion()).isEqualTo(DEFAULT_USER_OPINION);
-        assertThat(testFoodOrder.getUserComment()).isEqualTo(DEFAULT_USER_COMMENT);
-        assertThat(testFoodOrder.getDeliveryManComment()).isEqualTo(DEFAULT_DELIVERY_MAN_COMMENT);
+        assertThat(testFoodOrder.getTimeRating()).isEqualTo(DEFAULT_TIME_RATING);
+        assertThat(testFoodOrder.getPriceRating()).isEqualTo(DEFAULT_PRICE_RATING);
+        assertThat(testFoodOrder.getQualityRating()).isEqualTo(DEFAULT_QUALITY_RATING);
         assertThat(testFoodOrder.getLoyaltyPoints()).isEqualTo(DEFAULT_LOYALTY_POINTS);
+        assertThat(testFoodOrder.getAddressRating()).isEqualTo(DEFAULT_ADDRESS_RATING);
+        assertThat(testFoodOrder.getDate()).isEqualTo(DEFAULT_DATE);
+        assertThat(testFoodOrder.getPrice()).isEqualTo(DEFAULT_PRICE);
+        assertThat(testFoodOrder.getStatus()).isEqualTo(DEFAULT_STATUS);
+        assertThat(testFoodOrder.getPurchaserOpinion()).isEqualTo(DEFAULT_PURCHASER_OPINION);
+        assertThat(testFoodOrder.getPurchaserComment()).isEqualTo(DEFAULT_PURCHASER_COMMENT);
+        assertThat(testFoodOrder.getCity()).isEqualTo(DEFAULT_CITY);
+        assertThat(testFoodOrder.getPhone()).isEqualTo(DEFAULT_PHONE);
+        assertThat(testFoodOrder.getAddress()).isEqualTo(DEFAULT_ADDRESS);
     }
 
     @Test
@@ -191,10 +222,10 @@ public class FoodOrderResourceIntTest {
 
     @Test
     @Transactional
-    public void checkLastUpdatedDateIsRequired() throws Exception {
+    public void checkPriceIsRequired() throws Exception {
         int databaseSizeBeforeTest = foodOrderRepository.findAll().size();
         // set the field null
-        foodOrder.setLastUpdatedDate(null);
+        foodOrder.setPrice(null);
 
         // Create the FoodOrder, which fails.
 
@@ -227,24 +258,6 @@ public class FoodOrderResourceIntTest {
 
     @Test
     @Transactional
-    public void checkPriceIsRequired() throws Exception {
-        int databaseSizeBeforeTest = foodOrderRepository.findAll().size();
-        // set the field null
-        foodOrder.setPrice(null);
-
-        // Create the FoodOrder, which fails.
-
-        restFoodOrderMockMvc.perform(post("/api/food-orders")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(foodOrder)))
-            .andExpect(status().isBadRequest());
-
-        List<FoodOrder> foodOrderList = foodOrderRepository.findAll();
-        assertThat(foodOrderList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllFoodOrders() throws Exception {
         // Initialize the database
         foodOrderRepository.saveAndFlush(foodOrder);
@@ -254,16 +267,22 @@ public class FoodOrderResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(foodOrder.getId().intValue())))
+            .andExpect(jsonPath("$.[*].timeRating").value(hasItem(DEFAULT_TIME_RATING)))
+            .andExpect(jsonPath("$.[*].priceRating").value(hasItem(DEFAULT_PRICE_RATING)))
+            .andExpect(jsonPath("$.[*].qualityRating").value(hasItem(DEFAULT_QUALITY_RATING)))
+            .andExpect(jsonPath("$.[*].loyaltyPoints").value(hasItem(DEFAULT_LOYALTY_POINTS)))
+            .andExpect(jsonPath("$.[*].addressRating").value(hasItem(DEFAULT_ADDRESS_RATING)))
             .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())))
-            .andExpect(jsonPath("$.[*].lastUpdatedDate").value(hasItem(DEFAULT_LAST_UPDATED_DATE.toString())))
-            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS)))
             .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE.doubleValue())))
-            .andExpect(jsonPath("$.[*].userOpinion").value(hasItem(DEFAULT_USER_OPINION.toString())))
-            .andExpect(jsonPath("$.[*].userComment").value(hasItem(DEFAULT_USER_COMMENT.toString())))
-            .andExpect(jsonPath("$.[*].deliveryManComment").value(hasItem(DEFAULT_DELIVERY_MAN_COMMENT.toString())))
-            .andExpect(jsonPath("$.[*].loyaltyPoints").value(hasItem(DEFAULT_LOYALTY_POINTS)));
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].purchaserOpinion").value(hasItem(DEFAULT_PURCHASER_OPINION.toString())))
+            .andExpect(jsonPath("$.[*].purchaserComment").value(hasItem(DEFAULT_PURCHASER_COMMENT.toString())))
+            .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY.toString())))
+            .andExpect(jsonPath("$.[*].phone").value(hasItem(DEFAULT_PHONE.toString())))
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS.toString())));
     }
     
+    @SuppressWarnings({"unchecked"})
     public void getAllFoodOrdersWithEagerRelationshipsIsEnabled() throws Exception {
         FoodOrderResource foodOrderResource = new FoodOrderResource(foodOrderRepositoryMock);
         when(foodOrderRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
@@ -280,6 +299,7 @@ public class FoodOrderResourceIntTest {
         verify(foodOrderRepositoryMock, times(1)).findAllWithEagerRelationships(any());
     }
 
+    @SuppressWarnings({"unchecked"})
     public void getAllFoodOrdersWithEagerRelationshipsIsNotEnabled() throws Exception {
         FoodOrderResource foodOrderResource = new FoodOrderResource(foodOrderRepositoryMock);
             when(foodOrderRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
@@ -306,14 +326,19 @@ public class FoodOrderResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(foodOrder.getId().intValue()))
+            .andExpect(jsonPath("$.timeRating").value(DEFAULT_TIME_RATING))
+            .andExpect(jsonPath("$.priceRating").value(DEFAULT_PRICE_RATING))
+            .andExpect(jsonPath("$.qualityRating").value(DEFAULT_QUALITY_RATING))
+            .andExpect(jsonPath("$.loyaltyPoints").value(DEFAULT_LOYALTY_POINTS))
+            .andExpect(jsonPath("$.addressRating").value(DEFAULT_ADDRESS_RATING))
             .andExpect(jsonPath("$.date").value(DEFAULT_DATE.toString()))
-            .andExpect(jsonPath("$.lastUpdatedDate").value(DEFAULT_LAST_UPDATED_DATE.toString()))
-            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS))
             .andExpect(jsonPath("$.price").value(DEFAULT_PRICE.doubleValue()))
-            .andExpect(jsonPath("$.userOpinion").value(DEFAULT_USER_OPINION.toString()))
-            .andExpect(jsonPath("$.userComment").value(DEFAULT_USER_COMMENT.toString()))
-            .andExpect(jsonPath("$.deliveryManComment").value(DEFAULT_DELIVERY_MAN_COMMENT.toString()))
-            .andExpect(jsonPath("$.loyaltyPoints").value(DEFAULT_LOYALTY_POINTS));
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
+            .andExpect(jsonPath("$.purchaserOpinion").value(DEFAULT_PURCHASER_OPINION.toString()))
+            .andExpect(jsonPath("$.purchaserComment").value(DEFAULT_PURCHASER_COMMENT.toString()))
+            .andExpect(jsonPath("$.city").value(DEFAULT_CITY.toString()))
+            .andExpect(jsonPath("$.phone").value(DEFAULT_PHONE.toString()))
+            .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS.toString()));
     }
 
     @Test
@@ -337,14 +362,19 @@ public class FoodOrderResourceIntTest {
         // Disconnect from session so that the updates on updatedFoodOrder are not directly saved in db
         em.detach(updatedFoodOrder);
         updatedFoodOrder
+            .timeRating(UPDATED_TIME_RATING)
+            .priceRating(UPDATED_PRICE_RATING)
+            .qualityRating(UPDATED_QUALITY_RATING)
+            .loyaltyPoints(UPDATED_LOYALTY_POINTS)
+            .addressRating(UPDATED_ADDRESS_RATING)
             .date(UPDATED_DATE)
-            .lastUpdatedDate(UPDATED_LAST_UPDATED_DATE)
-            .status(UPDATED_STATUS)
             .price(UPDATED_PRICE)
-            .userOpinion(UPDATED_USER_OPINION)
-            .userComment(UPDATED_USER_COMMENT)
-            .deliveryManComment(UPDATED_DELIVERY_MAN_COMMENT)
-            .loyaltyPoints(UPDATED_LOYALTY_POINTS);
+            .status(UPDATED_STATUS)
+            .purchaserOpinion(UPDATED_PURCHASER_OPINION)
+            .purchaserComment(UPDATED_PURCHASER_COMMENT)
+            .city(UPDATED_CITY)
+            .phone(UPDATED_PHONE)
+            .address(UPDATED_ADDRESS);
 
         restFoodOrderMockMvc.perform(put("/api/food-orders")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -355,14 +385,19 @@ public class FoodOrderResourceIntTest {
         List<FoodOrder> foodOrderList = foodOrderRepository.findAll();
         assertThat(foodOrderList).hasSize(databaseSizeBeforeUpdate);
         FoodOrder testFoodOrder = foodOrderList.get(foodOrderList.size() - 1);
-        assertThat(testFoodOrder.getDate()).isEqualTo(UPDATED_DATE);
-        assertThat(testFoodOrder.getLastUpdatedDate()).isEqualTo(UPDATED_LAST_UPDATED_DATE);
-        assertThat(testFoodOrder.getStatus()).isEqualTo(UPDATED_STATUS);
-        assertThat(testFoodOrder.getPrice()).isEqualTo(UPDATED_PRICE);
-        assertThat(testFoodOrder.getUserOpinion()).isEqualTo(UPDATED_USER_OPINION);
-        assertThat(testFoodOrder.getUserComment()).isEqualTo(UPDATED_USER_COMMENT);
-        assertThat(testFoodOrder.getDeliveryManComment()).isEqualTo(UPDATED_DELIVERY_MAN_COMMENT);
+        assertThat(testFoodOrder.getTimeRating()).isEqualTo(UPDATED_TIME_RATING);
+        assertThat(testFoodOrder.getPriceRating()).isEqualTo(UPDATED_PRICE_RATING);
+        assertThat(testFoodOrder.getQualityRating()).isEqualTo(UPDATED_QUALITY_RATING);
         assertThat(testFoodOrder.getLoyaltyPoints()).isEqualTo(UPDATED_LOYALTY_POINTS);
+        assertThat(testFoodOrder.getAddressRating()).isEqualTo(UPDATED_ADDRESS_RATING);
+        assertThat(testFoodOrder.getDate()).isEqualTo(UPDATED_DATE);
+        assertThat(testFoodOrder.getPrice()).isEqualTo(UPDATED_PRICE);
+        assertThat(testFoodOrder.getStatus()).isEqualTo(UPDATED_STATUS);
+        assertThat(testFoodOrder.getPurchaserOpinion()).isEqualTo(UPDATED_PURCHASER_OPINION);
+        assertThat(testFoodOrder.getPurchaserComment()).isEqualTo(UPDATED_PURCHASER_COMMENT);
+        assertThat(testFoodOrder.getCity()).isEqualTo(UPDATED_CITY);
+        assertThat(testFoodOrder.getPhone()).isEqualTo(UPDATED_PHONE);
+        assertThat(testFoodOrder.getAddress()).isEqualTo(UPDATED_ADDRESS);
     }
 
     @Test

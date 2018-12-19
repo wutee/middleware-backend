@@ -1,7 +1,6 @@
-
 {
-    "propsyBackendv01App": {
-        "menu" : {
+    "propsyBackendJwtApp": {
+        "menu": {
             "home": {
                 "title": "Menu",
                 "createLabel": "Dodaj Menu",
@@ -17,6 +16,7 @@
                 "title": "Menu"
             },
             "nameSlug": "Name Slug",
+            "photoBlob": "Photo Blob",
             "restaurant": "Restaurant",
             "foodItems": "Food Items"
         }

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { of, throwError } from 'rxjs';
 
-import { PropsyBackendv01TestModule } from '../../../test.module';
+import { PropsyBackendJwtTestModule } from '../../../test.module';
 import { JhiHealthCheckComponent } from 'app/admin/health/health.component';
 import { JhiHealthService } from 'app/admin/health/health.service';
 
@@ -12,16 +12,14 @@ describe('Component Tests', () => {
         let fixture: ComponentFixture<JhiHealthCheckComponent>;
         let service: JhiHealthService;
 
-        beforeEach(
-            async(() => {
-                TestBed.configureTestingModule({
-                    imports: [PropsyBackendv01TestModule],
-                    declarations: [JhiHealthCheckComponent]
-                })
-                    .overrideTemplate(JhiHealthCheckComponent, '')
-                    .compileComponents();
+        beforeEach(async(() => {
+            TestBed.configureTestingModule({
+                imports: [PropsyBackendJwtTestModule],
+                declarations: [JhiHealthCheckComponent]
             })
-        );
+                .overrideTemplate(JhiHealthCheckComponent, '')
+                .compileComponents();
+        }));
 
         beforeEach(() => {
             fixture = TestBed.createComponent(JhiHealthCheckComponent);
