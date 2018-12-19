@@ -5,6 +5,7 @@ apply plugin: 'com.moowork.node'
 
 dependencies {
     compile "org.springframework.boot:spring-boot-devtools"
+    compile "com.h2database:h2"
 }
 
 def profiles = 'dev'
@@ -27,10 +28,6 @@ task webpackBuildDev(type: NpmTask, dependsOn: 'npm_install') {
     args = ["run", "webpack:build"]
 }
 
-war {
-    webAppDirName = 'build/www/'
-}
-
 task copyIntoStatic (type: Copy) {
     from 'build/www/'
     into 'build/resources/main/static'
@@ -41,6 +38,8 @@ processResources {
         filter {
             it.replace('#project.version#', version)
         }
+    }
+    filesMatching('**/bootstrap.yml') {
         filter {
             it.replace('#spring.profiles.active#', profiles)
         }
@@ -50,9 +49,3 @@ processResources {
 processResources.dependsOn webpackBuildDev
 copyIntoStatic.dependsOn processResources
 bootJar.dependsOn copyIntoStatic
-
-npm_install.onlyIf { shouldWebpackRun() == true }
-
-def shouldWebpackRun() {
-    project.hasProperty('webpack')
-}

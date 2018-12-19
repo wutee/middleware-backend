@@ -1,6 +1,7 @@
 package com.propsy.backend.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -24,23 +25,39 @@ public class Restaurant implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "name_slug", nullable = false)
+    @Size(min = 2, max = 250)
+    @Column(name = "name_slug", length = 250, nullable = false)
     private String nameSlug;
 
-    @Column(name = "address")
+    @Size(max = 250)
+    @Column(name = "address", length = 250)
     private String address;
 
-    @Column(name = "owner_id")
-    private String ownerId;
+    @Size(max = 250)
+    @Column(name = "city", length = 250)
+    private String city;
 
-    @OneToMany(mappedBy = "restaurant")
-    private Set<Menu> menus = new HashSet<>();
+    @Column(name = "latitude")
+    private Double latitude;
+
+    @Column(name = "longitude")
+    private Double longitude;
+
+    @Lob
+    @Column(name = "photo_blob")
+    private byte[] photoBlob;
+
+    @Column(name = "photo_blob_content_type")
+    private String photoBlobContentType;
+
+    @ManyToOne
+    @JsonIgnoreProperties("")
+    private User worker;
+
     @OneToMany(mappedBy = "restaurant")
     private Set<FoodOrder> orders = new HashSet<>();
-    @ManyToMany(mappedBy = "employers")
-    @JsonIgnore
-    private Set<RestaurantWorker> employees = new HashSet<>();
-
+    @OneToMany(mappedBy = "restaurant")
+    private Set<Menu> menus = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -76,42 +93,82 @@ public class Restaurant implements Serializable {
         this.address = address;
     }
 
-    public String getOwnerId() {
-        return ownerId;
+    public String getCity() {
+        return city;
     }
 
-    public Restaurant ownerId(String ownerId) {
-        this.ownerId = ownerId;
+    public Restaurant city(String city) {
+        this.city = city;
         return this;
     }
 
-    public void setOwnerId(String ownerId) {
-        this.ownerId = ownerId;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public Set<Menu> getMenus() {
-        return menus;
+    public Double getLatitude() {
+        return latitude;
     }
 
-    public Restaurant menus(Set<Menu> menus) {
-        this.menus = menus;
+    public Restaurant latitude(Double latitude) {
+        this.latitude = latitude;
         return this;
     }
 
-    public Restaurant addMenu(Menu menu) {
-        this.menus.add(menu);
-        menu.setRestaurant(this);
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public Restaurant longitude(Double longitude) {
+        this.longitude = longitude;
         return this;
     }
 
-    public Restaurant removeMenu(Menu menu) {
-        this.menus.remove(menu);
-        menu.setRestaurant(null);
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public byte[] getPhotoBlob() {
+        return photoBlob;
+    }
+
+    public Restaurant photoBlob(byte[] photoBlob) {
+        this.photoBlob = photoBlob;
         return this;
     }
 
-    public void setMenus(Set<Menu> menus) {
-        this.menus = menus;
+    public void setPhotoBlob(byte[] photoBlob) {
+        this.photoBlob = photoBlob;
+    }
+
+    public String getPhotoBlobContentType() {
+        return photoBlobContentType;
+    }
+
+    public Restaurant photoBlobContentType(String photoBlobContentType) {
+        this.photoBlobContentType = photoBlobContentType;
+        return this;
+    }
+
+    public void setPhotoBlobContentType(String photoBlobContentType) {
+        this.photoBlobContentType = photoBlobContentType;
+    }
+
+    public User getWorker() {
+        return worker;
+    }
+
+    public Restaurant worker(User user) {
+        this.worker = user;
+        return this;
+    }
+
+    public void setWorker(User user) {
+        this.worker = user;
     }
 
     public Set<FoodOrder> getOrders() {
@@ -139,29 +196,29 @@ public class Restaurant implements Serializable {
         this.orders = foodOrders;
     }
 
-    public Set<RestaurantWorker> getEmployees() {
-        return employees;
+    public Set<Menu> getMenus() {
+        return menus;
     }
 
-    public Restaurant employees(Set<RestaurantWorker> restaurantWorkers) {
-        this.employees = restaurantWorkers;
+    public Restaurant menus(Set<Menu> menus) {
+        this.menus = menus;
         return this;
     }
 
-    public Restaurant addEmployee(RestaurantWorker restaurantWorker) {
-        this.employees.add(restaurantWorker);
-        restaurantWorker.getEmployers().add(this);
+    public Restaurant addMenu(Menu menu) {
+        this.menus.add(menu);
+        menu.setRestaurant(this);
         return this;
     }
 
-    public Restaurant removeEmployee(RestaurantWorker restaurantWorker) {
-        this.employees.remove(restaurantWorker);
-        restaurantWorker.getEmployers().remove(this);
+    public Restaurant removeMenu(Menu menu) {
+        this.menus.remove(menu);
+        menu.setRestaurant(null);
         return this;
     }
 
-    public void setEmployees(Set<RestaurantWorker> restaurantWorkers) {
-        this.employees = restaurantWorkers;
+    public void setMenus(Set<Menu> menus) {
+        this.menus = menus;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -191,7 +248,11 @@ public class Restaurant implements Serializable {
             "id=" + getId() +
             ", nameSlug='" + getNameSlug() + "'" +
             ", address='" + getAddress() + "'" +
-            ", ownerId='" + getOwnerId() + "'" +
+            ", city='" + getCity() + "'" +
+            ", latitude=" + getLatitude() +
+            ", longitude=" + getLongitude() +
+            ", photoBlob='" + getPhotoBlob() + "'" +
+            ", photoBlobContentType='" + getPhotoBlobContentType() + "'" +
             "}";
     }
 }

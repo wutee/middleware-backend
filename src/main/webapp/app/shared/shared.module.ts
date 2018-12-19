@@ -2,14 +2,20 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 import { NgbDateMomentAdapter } from './util/datepicker-adapter';
-import { PropsyBackendv01SharedLibsModule, PropsyBackendv01SharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective } from './';
+import { PropsyBackendJwtSharedLibsModule, PropsyBackendJwtSharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective } from './';
 
 @NgModule({
-    imports: [PropsyBackendv01SharedLibsModule, PropsyBackendv01SharedCommonModule],
+    imports: [PropsyBackendJwtSharedLibsModule, PropsyBackendJwtSharedCommonModule],
     declarations: [JhiLoginModalComponent, HasAnyAuthorityDirective],
     providers: [{ provide: NgbDateAdapter, useClass: NgbDateMomentAdapter }],
     entryComponents: [JhiLoginModalComponent],
-    exports: [PropsyBackendv01SharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective],
+    exports: [PropsyBackendJwtSharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class PropsyBackendv01SharedModule {}
+export class PropsyBackendJwtSharedModule {
+    static forRoot() {
+        return {
+            ngModule: PropsyBackendJwtSharedModule
+        };
+    }
+}

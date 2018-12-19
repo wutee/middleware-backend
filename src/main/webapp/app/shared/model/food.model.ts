@@ -1,4 +1,3 @@
-import { ITranslation } from 'app/shared/model//translation.model';
 import { IMenu } from 'app/shared/model//menu.model';
 import { IFoodOrder } from 'app/shared/model//food-order.model';
 
@@ -11,8 +10,8 @@ export interface IFood {
     isSpicy?: boolean;
     isVegetarian?: boolean;
     isGlutenFree?: boolean;
-    photoLocation?: string;
-    translation?: ITranslation;
+    photoBlobContentType?: string;
+    photoBlob?: any;
     menus?: IMenu[];
     orders?: IFoodOrder[];
 }
@@ -27,8 +26,8 @@ export class Food implements IFood {
         public isSpicy?: boolean,
         public isVegetarian?: boolean,
         public isGlutenFree?: boolean,
-        public photoLocation?: string,
-        public translation?: ITranslation,
+        public photoBlobContentType?: string,
+        public photoBlob?: any,
         public menus?: IMenu[],
         public orders?: IFoodOrder[]
     ) {

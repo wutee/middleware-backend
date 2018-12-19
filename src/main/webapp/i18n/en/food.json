@@ -1,7 +1,6 @@
-
 {
-    "propsyBackendv01App": {
-        "food" : {
+    "propsyBackendJwtApp": {
+        "food": {
             "home": {
                 "title": "Foods",
                 "createLabel": "Create a new Food",
@@ -23,8 +22,7 @@
             "isSpicy": "Is Spicy",
             "isVegetarian": "Is Vegetarian",
             "isGlutenFree": "Is Gluten Free",
-            "photoLocation": "Photo Location",
-            "translation": "Translation",
+            "photoBlob": "Photo Blob",
             "menu": "Menu",
             "order": "Order"
         }

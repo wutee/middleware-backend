@@ -17,8 +17,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * REST controller for managing Food.
@@ -31,7 +29,7 @@ public class FoodResource {
 
     private static final String ENTITY_NAME = "food";
 
-    private FoodRepository foodRepository;
+    private final FoodRepository foodRepository;
 
     public FoodResource(FoodRepository foodRepository) {
         this.foodRepository = foodRepository;
@@ -82,19 +80,11 @@ public class FoodResource {
     /**
      * GET  /foods : get all the foods.
      *
-     * @param filter the filter of the request
      * @return the ResponseEntity with status 200 (OK) and the list of foods in body
      */
     @GetMapping("/foods")
     @Timed
-    public List<Food> getAllFoods(@RequestParam(required = false) String filter) {
-        if ("translation-is-null".equals(filter)) {
-            log.debug("REST request to get all Foods where translation is null");
-            return StreamSupport
-                .stream(foodRepository.findAll().spliterator(), false)
-                .filter(food -> food.getTranslation() == null)
-                .collect(Collectors.toList());
-        }
+    public List<Food> getAllFoods() {
         log.debug("REST request to get all Foods");
         return foodRepository.findAll();
     }

@@ -1,5 +1,6 @@
 package com.propsy.backend.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -10,6 +11,8 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
+
+import com.propsy.backend.domain.enumeration.OrderStatus;
 
 /**
  * A FoodOrder.
@@ -24,45 +27,66 @@ public class FoodOrder implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "time_rating")
+    private Integer timeRating;
+
+    @Column(name = "price_rating")
+    private Integer priceRating;
+
+    @Column(name = "quality_rating")
+    private Integer qualityRating;
+
+    @Column(name = "loyalty_points")
+    private Integer loyaltyPoints;
+
+    @Column(name = "address_rating")
+    private Integer addressRating;
+
     @NotNull
     @Column(name = "jhi_date", nullable = false)
     private LocalDate date;
 
     @NotNull
-    @Column(name = "last_updated_date", nullable = false)
-    private LocalDate lastUpdatedDate;
-
-    @NotNull
-    @Column(name = "status", nullable = false)
-    private Integer status;
-
-    @NotNull
+    @DecimalMin(value = "0")
     @Column(name = "price", nullable = false)
     private Float price;
 
-    @Column(name = "user_opinion")
-    private String userOpinion;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private OrderStatus status;
 
-    @Column(name = "user_comment")
-    private String userComment;
+    @Size(max = 250)
+    @Column(name = "purchaser_opinion", length = 250)
+    private String purchaserOpinion;
 
-    @Column(name = "delivery_man_comment")
-    private String deliveryManComment;
+    @Size(max = 250)
+    @Column(name = "purchaser_comment", length = 250)
+    private String purchaserComment;
 
-    @Column(name = "loyalty_points")
-    private Integer loyaltyPoints;
+    @Size(min = 2, max = 250)
+    @Column(name = "city", length = 250)
+    private String city;
+
+    @Size(min = 2, max = 250)
+    @Column(name = "phone", length = 250)
+    private String phone;
+
+    @Size(min = 2, max = 250)
+    @Column(name = "address", length = 250)
+    private String address;
 
     @ManyToOne
     @JsonIgnoreProperties("orders")
     private Restaurant restaurant;
 
     @ManyToOne
-    @JsonIgnoreProperties("orders")
-    private Customer orderee;
+    @JsonIgnoreProperties("")
+    private User deliveryman;
 
     @ManyToOne
-    @JsonIgnoreProperties("orders")
-    private DeliveryPersonnel delivery;
+    @JsonIgnoreProperties("")
+    private User purchaser;
 
     @ManyToMany
     @JoinTable(name = "food_order_food_items",
@@ -70,6 +94,8 @@ public class FoodOrder implements Serializable {
                inverseJoinColumns = @JoinColumn(name = "food_items_id", referencedColumnName = "id"))
     private Set<Food> foodItems = new HashSet<>();
 
+    @OneToMany(mappedBy = "foodOrder")
+    private Set<FoodOrderMovement> movements = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -79,95 +105,43 @@ public class FoodOrder implements Serializable {
         this.id = id;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public Integer getTimeRating() {
+        return timeRating;
     }
 
-    public FoodOrder date(LocalDate date) {
-        this.date = date;
+    public FoodOrder timeRating(Integer timeRating) {
+        this.timeRating = timeRating;
         return this;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setTimeRating(Integer timeRating) {
+        this.timeRating = timeRating;
     }
 
-    public LocalDate getLastUpdatedDate() {
-        return lastUpdatedDate;
+    public Integer getPriceRating() {
+        return priceRating;
     }
 
-    public FoodOrder lastUpdatedDate(LocalDate lastUpdatedDate) {
-        this.lastUpdatedDate = lastUpdatedDate;
+    public FoodOrder priceRating(Integer priceRating) {
+        this.priceRating = priceRating;
         return this;
     }
 
-    public void setLastUpdatedDate(LocalDate lastUpdatedDate) {
-        this.lastUpdatedDate = lastUpdatedDate;
+    public void setPriceRating(Integer priceRating) {
+        this.priceRating = priceRating;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getQualityRating() {
+        return qualityRating;
     }
 
-    public FoodOrder status(Integer status) {
-        this.status = status;
+    public FoodOrder qualityRating(Integer qualityRating) {
+        this.qualityRating = qualityRating;
         return this;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-
-    public FoodOrder price(Float price) {
-        this.price = price;
-        return this;
-    }
-
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
-    public String getUserOpinion() {
-        return userOpinion;
-    }
-
-    public FoodOrder userOpinion(String userOpinion) {
-        this.userOpinion = userOpinion;
-        return this;
-    }
-
-    public void setUserOpinion(String userOpinion) {
-        this.userOpinion = userOpinion;
-    }
-
-    public String getUserComment() {
-        return userComment;
-    }
-
-    public FoodOrder userComment(String userComment) {
-        this.userComment = userComment;
-        return this;
-    }
-
-    public void setUserComment(String userComment) {
-        this.userComment = userComment;
-    }
-
-    public String getDeliveryManComment() {
-        return deliveryManComment;
-    }
-
-    public FoodOrder deliveryManComment(String deliveryManComment) {
-        this.deliveryManComment = deliveryManComment;
-        return this;
-    }
-
-    public void setDeliveryManComment(String deliveryManComment) {
-        this.deliveryManComment = deliveryManComment;
+    public void setQualityRating(Integer qualityRating) {
+        this.qualityRating = qualityRating;
     }
 
     public Integer getLoyaltyPoints() {
@@ -183,6 +157,123 @@ public class FoodOrder implements Serializable {
         this.loyaltyPoints = loyaltyPoints;
     }
 
+    public Integer getAddressRating() {
+        return addressRating;
+    }
+
+    public FoodOrder addressRating(Integer addressRating) {
+        this.addressRating = addressRating;
+        return this;
+    }
+
+    public void setAddressRating(Integer addressRating) {
+        this.addressRating = addressRating;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public FoodOrder date(LocalDate date) {
+        this.date = date;
+        return this;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public Float getPrice() {
+        return price;
+    }
+
+    public FoodOrder price(Float price) {
+        this.price = price;
+        return this;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public FoodOrder status(OrderStatus status) {
+        this.status = status;
+        return this;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+
+    public String getPurchaserOpinion() {
+        return purchaserOpinion;
+    }
+
+    public FoodOrder purchaserOpinion(String purchaserOpinion) {
+        this.purchaserOpinion = purchaserOpinion;
+        return this;
+    }
+
+    public void setPurchaserOpinion(String purchaserOpinion) {
+        this.purchaserOpinion = purchaserOpinion;
+    }
+
+    public String getPurchaserComment() {
+        return purchaserComment;
+    }
+
+    public FoodOrder purchaserComment(String purchaserComment) {
+        this.purchaserComment = purchaserComment;
+        return this;
+    }
+
+    public void setPurchaserComment(String purchaserComment) {
+        this.purchaserComment = purchaserComment;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public FoodOrder city(String city) {
+        this.city = city;
+        return this;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public FoodOrder phone(String phone) {
+        this.phone = phone;
+        return this;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public FoodOrder address(String address) {
+        this.address = address;
+        return this;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public Restaurant getRestaurant() {
         return restaurant;
     }
@@ -196,30 +287,30 @@ public class FoodOrder implements Serializable {
         this.restaurant = restaurant;
     }
 
-    public Customer getOrderee() {
-        return orderee;
+    public User getDeliveryman() {
+        return deliveryman;
     }
 
-    public FoodOrder orderee(Customer customer) {
-        this.orderee = customer;
+    public FoodOrder deliveryman(User user) {
+        this.deliveryman = user;
         return this;
     }
 
-    public void setOrderee(Customer customer) {
-        this.orderee = customer;
+    public void setDeliveryman(User user) {
+        this.deliveryman = user;
     }
 
-    public DeliveryPersonnel getDelivery() {
-        return delivery;
+    public User getPurchaser() {
+        return purchaser;
     }
 
-    public FoodOrder delivery(DeliveryPersonnel deliveryPersonnel) {
-        this.delivery = deliveryPersonnel;
+    public FoodOrder purchaser(User user) {
+        this.purchaser = user;
         return this;
     }
 
-    public void setDelivery(DeliveryPersonnel deliveryPersonnel) {
-        this.delivery = deliveryPersonnel;
+    public void setPurchaser(User user) {
+        this.purchaser = user;
     }
 
     public Set<Food> getFoodItems() {
@@ -245,6 +336,31 @@ public class FoodOrder implements Serializable {
 
     public void setFoodItems(Set<Food> foods) {
         this.foodItems = foods;
+    }
+
+    public Set<FoodOrderMovement> getMovements() {
+        return movements;
+    }
+
+    public FoodOrder movements(Set<FoodOrderMovement> foodOrderMovements) {
+        this.movements = foodOrderMovements;
+        return this;
+    }
+
+    public FoodOrder addMovement(FoodOrderMovement foodOrderMovement) {
+        this.movements.add(foodOrderMovement);
+        foodOrderMovement.setFoodOrder(this);
+        return this;
+    }
+
+    public FoodOrder removeMovement(FoodOrderMovement foodOrderMovement) {
+        this.movements.remove(foodOrderMovement);
+        foodOrderMovement.setFoodOrder(null);
+        return this;
+    }
+
+    public void setMovements(Set<FoodOrderMovement> foodOrderMovements) {
+        this.movements = foodOrderMovements;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -272,14 +388,19 @@ public class FoodOrder implements Serializable {
     public String toString() {
         return "FoodOrder{" +
             "id=" + getId() +
-            ", date='" + getDate() + "'" +
-            ", lastUpdatedDate='" + getLastUpdatedDate() + "'" +
-            ", status=" + getStatus() +
-            ", price=" + getPrice() +
-            ", userOpinion='" + getUserOpinion() + "'" +
-            ", userComment='" + getUserComment() + "'" +
-            ", deliveryManComment='" + getDeliveryManComment() + "'" +
+            ", timeRating=" + getTimeRating() +
+            ", priceRating=" + getPriceRating() +
+            ", qualityRating=" + getQualityRating() +
             ", loyaltyPoints=" + getLoyaltyPoints() +
+            ", addressRating=" + getAddressRating() +
+            ", date='" + getDate() + "'" +
+            ", price=" + getPrice() +
+            ", status='" + getStatus() + "'" +
+            ", purchaserOpinion='" + getPurchaserOpinion() + "'" +
+            ", purchaserComment='" + getPurchaserComment() + "'" +
+            ", city='" + getCity() + "'" +
+            ", phone='" + getPhone() + "'" +
+            ", address='" + getAddress() + "'" +
             "}";
     }
 }

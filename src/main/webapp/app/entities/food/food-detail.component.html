@@ -1,41 +1,46 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="food">
-            <h2><span jhiTranslate="propsyBackendv01App.food.detail.title">Food</span> {{food.id}}</h2>
+            <h2><span jhiTranslate="propsyBackendJwtApp.food.detail.title">Food</span> {{food.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="propsyBackendv01App.food.nameSlug">Name Slug</span></dt>
+                <dt><span jhiTranslate="propsyBackendJwtApp.food.nameSlug">Name Slug</span></dt>
                 <dd>
                     <span>{{food.nameSlug}}</span>
                 </dd>
-                <dt><span jhiTranslate="propsyBackendv01App.food.price">Price</span></dt>
+                <dt><span jhiTranslate="propsyBackendJwtApp.food.price">Price</span></dt>
                 <dd>
                     <span>{{food.price}}</span>
                 </dd>
-                <dt><span jhiTranslate="propsyBackendv01App.food.foodDescription">Food Description</span></dt>
+                <dt><span jhiTranslate="propsyBackendJwtApp.food.foodDescription">Food Description</span></dt>
                 <dd>
                     <span>{{food.foodDescription}}</span>
                 </dd>
-                <dt><span jhiTranslate="propsyBackendv01App.food.calories">Calories</span></dt>
+                <dt><span jhiTranslate="propsyBackendJwtApp.food.calories">Calories</span></dt>
                 <dd>
                     <span>{{food.calories}}</span>
                 </dd>
-                <dt><span jhiTranslate="propsyBackendv01App.food.isSpicy">Is Spicy</span></dt>
+                <dt><span jhiTranslate="propsyBackendJwtApp.food.isSpicy">Is Spicy</span></dt>
                 <dd>
                     <span>{{food.isSpicy}}</span>
                 </dd>
-                <dt><span jhiTranslate="propsyBackendv01App.food.isVegetarian">Is Vegetarian</span></dt>
+                <dt><span jhiTranslate="propsyBackendJwtApp.food.isVegetarian">Is Vegetarian</span></dt>
                 <dd>
                     <span>{{food.isVegetarian}}</span>
                 </dd>
-                <dt><span jhiTranslate="propsyBackendv01App.food.isGlutenFree">Is Gluten Free</span></dt>
+                <dt><span jhiTranslate="propsyBackendJwtApp.food.isGlutenFree">Is Gluten Free</span></dt>
                 <dd>
                     <span>{{food.isGlutenFree}}</span>
                 </dd>
-                <dt><span jhiTranslate="propsyBackendv01App.food.photoLocation">Photo Location</span></dt>
+                <dt><span jhiTranslate="propsyBackendJwtApp.food.photoBlob">Photo Blob</span></dt>
                 <dd>
-                    <span>{{food.photoLocation}}</span>
+                    <div *ngIf="food.photoBlob">
+                        <a (click)="openFile(food.photoBlobContentType, food.photoBlob)">
+                            <img [src]="'data:' + food.photoBlobContentType + ';base64,' + food.photoBlob" style="max-width: 100%;" alt="food image"/>
+                        </a>
+                        {{food.photoBlobContentType}}, {{byteSize(food.photoBlob)}}
+                    </div>
                 </dd>
             </dl>
 

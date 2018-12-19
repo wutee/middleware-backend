@@ -1,6 +1,6 @@
 {
     "global": {
-        "title": "propsyBackend",
+        "title": "PropsyBackendJwt",
         "browsehappy": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.",
         "menu": {
             "home": "Home",
@@ -8,18 +8,11 @@
             "entities": {
                 "main": "Entities",
                 "restaurant": "Restaurant",
-                "restaurantWorker": "Restaurant Worker",
                 "menu": "Menu",
                 "food": "Food",
                 "foodOrder": "Food Order",
-                "payment": "Payment",
-                "paymentMethod": "Payment Method",
-                "customer": "Customer",
-                "translation": "Translation",
-                "language": "Language",
-                "ingredient": "Ingredient",
-                "ingredientOrder": "Ingredient Order",
-                "deliveryPersonnel": "Delivery Personnel",
+                "foodOrderMovement": "Food Order Movement",
+                "extendedUser": "Extended User",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
@@ -62,7 +55,7 @@
             "info": {
                 "authenticated": {
                     "prefix": "If you want to ",
-                    "link": "Sign in",
+                    "link": "sign in",
                     "suffix": ", you can try the default accounts:<br/>- Administrator (login=\"admin\" and password=\"admin\") <br/>- User (login=\"user\" and password=\"user\")."
                 },
                 "register": {
@@ -97,7 +90,7 @@
             "id": "ID"
         },
         "ribbon": {
-            "dev":"Development"
+            "dev": "Development"
         },
         "item-count": "Showing {{first}} - {{second}} of {{total}} items."
     },
@@ -145,5 +138,5 @@
         "idexists": "A new {{ entityName }} cannot already have an ID",
         "idnull": "Invalid ID"
     },
-    "footer": "Pyszne 2.0 2018"
+    "footer": "This is your footer"
 }

@@ -5,24 +5,49 @@
             "fieldName": "nameSlug",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 2,
+            "fieldValidateRulesMaxlength": 250
         },
         {
             "fieldName": "address",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 250
         },
         {
-            "fieldName": "ownerId",
-            "fieldType": "String"
+            "fieldName": "city",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 250
+        },
+        {
+            "fieldName": "latitude",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "longitude",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "photoBlob",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
         }
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-many",
-            "relationshipName": "menu",
-            "otherEntityName": "menu",
-            "otherEntityRelationshipName": "restaurant"
+            "relationshipType": "many-to-one",
+            "relationshipName": "worker",
+            "otherEntityName": "user",
+            "otherEntityField": "email"
         },
         {
             "relationshipType": "one-to-many",
@@ -31,14 +56,13 @@
             "otherEntityRelationshipName": "restaurant"
         },
         {
-            "relationshipType": "many-to-many",
-            "relationshipName": "employee",
-            "otherEntityName": "restaurantWorker",
-            "ownerSide": false,
-            "otherEntityRelationshipName": "employer"
+            "relationshipType": "one-to-many",
+            "relationshipName": "menu",
+            "otherEntityName": "menu",
+            "otherEntityRelationshipName": "restaurant"
         }
     ],
-    "changelogDate": "20181111183758",
+    "changelogDate": "20181218220405",
     "entityTableName": "restaurant",
     "dto": "no",
     "pagination": "no",

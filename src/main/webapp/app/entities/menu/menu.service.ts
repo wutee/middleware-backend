@@ -13,7 +13,7 @@ type EntityArrayResponseType = HttpResponse<IMenu[]>;
 export class MenuService {
     public resourceUrl = SERVER_API_URL + 'api/menus';
 
-    constructor(private http: HttpClient) {}
+    constructor(protected http: HttpClient) {}
 
     create(menu: IMenu): Observable<EntityResponseType> {
         return this.http.post<IMenu>(this.resourceUrl, menu, { observe: 'response' });

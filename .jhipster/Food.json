@@ -5,19 +5,29 @@
             "fieldName": "nameSlug",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 2,
+            "fieldValidateRulesMaxlength": 250
         },
         {
             "fieldName": "price",
             "fieldType": "Float",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
         },
         {
             "fieldName": "foodDescription",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 250
         },
         {
             "fieldName": "calories",
@@ -36,18 +46,12 @@
             "fieldType": "Boolean"
         },
         {
-            "fieldName": "photoLocation",
-            "fieldType": "String"
+            "fieldName": "photoBlob",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
         }
     ],
     "relationships": [
-        {
-            "relationshipType": "one-to-one",
-            "relationshipName": "translation",
-            "otherEntityName": "translation",
-            "ownerSide": false,
-            "otherEntityRelationshipName": "food"
-        },
         {
             "relationshipType": "many-to-many",
             "relationshipName": "menu",
@@ -63,7 +67,7 @@
             "otherEntityRelationshipName": "foodItems"
         }
     ],
-    "changelogDate": "20181111183801",
+    "changelogDate": "20181218220407",
     "entityTableName": "food",
     "dto": "no",
     "pagination": "no",

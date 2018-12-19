@@ -1,61 +1,77 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="foodOrder">
-            <h2><span jhiTranslate="propsyBackendv01App.foodOrder.detail.title">Food Order</span> {{foodOrder.id}}</h2>
+            <h2><span jhiTranslate="propsyBackendJwtApp.foodOrder.detail.title">Food Order</span> {{foodOrder.id}}</h2>
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="propsyBackendv01App.foodOrder.date">Date</span></dt>
+                <dt><span jhiTranslate="propsyBackendJwtApp.foodOrder.timeRating">Time Rating</span></dt>
                 <dd>
-                    <span>{{foodOrder.date}}</span>
+                    <span>{{foodOrder.timeRating}}</span>
                 </dd>
-                <dt><span jhiTranslate="propsyBackendv01App.foodOrder.lastUpdatedDate">Last Updated Date</span></dt>
+                <dt><span jhiTranslate="propsyBackendJwtApp.foodOrder.priceRating">Price Rating</span></dt>
                 <dd>
-                    <span>{{foodOrder.lastUpdatedDate}}</span>
+                    <span>{{foodOrder.priceRating}}</span>
                 </dd>
-                <dt><span jhiTranslate="propsyBackendv01App.foodOrder.status">Status</span></dt>
+                <dt><span jhiTranslate="propsyBackendJwtApp.foodOrder.qualityRating">Quality Rating</span></dt>
                 <dd>
-                    <span>{{foodOrder.status}}</span>
+                    <span>{{foodOrder.qualityRating}}</span>
                 </dd>
-                <dt><span jhiTranslate="propsyBackendv01App.foodOrder.price">Price</span></dt>
-                <dd>
-                    <span>{{foodOrder.price}}</span>
-                </dd>
-                <dt><span jhiTranslate="propsyBackendv01App.foodOrder.userOpinion">User Opinion</span></dt>
-                <dd>
-                    <span>{{foodOrder.userOpinion}}</span>
-                </dd>
-                <dt><span jhiTranslate="propsyBackendv01App.foodOrder.userComment">User Comment</span></dt>
-                <dd>
-                    <span>{{foodOrder.userComment}}</span>
-                </dd>
-                <dt><span jhiTranslate="propsyBackendv01App.foodOrder.deliveryManComment">Delivery Man Comment</span></dt>
-                <dd>
-                    <span>{{foodOrder.deliveryManComment}}</span>
-                </dd>
-                <dt><span jhiTranslate="propsyBackendv01App.foodOrder.loyaltyPoints">Loyalty Points</span></dt>
+                <dt><span jhiTranslate="propsyBackendJwtApp.foodOrder.loyaltyPoints">Loyalty Points</span></dt>
                 <dd>
                     <span>{{foodOrder.loyaltyPoints}}</span>
                 </dd>
-                <dt><span jhiTranslate="propsyBackendv01App.foodOrder.restaurant">Restaurant</span></dt>
+                <dt><span jhiTranslate="propsyBackendJwtApp.foodOrder.addressRating">Address Rating</span></dt>
+                <dd>
+                    <span>{{foodOrder.addressRating}}</span>
+                </dd>
+                <dt><span jhiTranslate="propsyBackendJwtApp.foodOrder.date">Date</span></dt>
+                <dd>
+                    <span>{{foodOrder.date}}</span>
+                </dd>
+                <dt><span jhiTranslate="propsyBackendJwtApp.foodOrder.price">Price</span></dt>
+                <dd>
+                    <span>{{foodOrder.price}}</span>
+                </dd>
+                <dt><span jhiTranslate="propsyBackendJwtApp.foodOrder.status">Status</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'propsyBackendJwtApp.OrderStatus.' + foodOrder.status}}">{{foodOrder.status}}</span>
+                </dd>
+                <dt><span jhiTranslate="propsyBackendJwtApp.foodOrder.purchaserOpinion">Purchaser Opinion</span></dt>
+                <dd>
+                    <span>{{foodOrder.purchaserOpinion}}</span>
+                </dd>
+                <dt><span jhiTranslate="propsyBackendJwtApp.foodOrder.purchaserComment">Purchaser Comment</span></dt>
+                <dd>
+                    <span>{{foodOrder.purchaserComment}}</span>
+                </dd>
+                <dt><span jhiTranslate="propsyBackendJwtApp.foodOrder.city">City</span></dt>
+                <dd>
+                    <span>{{foodOrder.city}}</span>
+                </dd>
+                <dt><span jhiTranslate="propsyBackendJwtApp.foodOrder.phone">Phone</span></dt>
+                <dd>
+                    <span>{{foodOrder.phone}}</span>
+                </dd>
+                <dt><span jhiTranslate="propsyBackendJwtApp.foodOrder.address">Address</span></dt>
+                <dd>
+                    <span>{{foodOrder.address}}</span>
+                </dd>
+                <dt><span jhiTranslate="propsyBackendJwtApp.foodOrder.restaurant">Restaurant</span></dt>
                 <dd>
                     <div *ngIf="foodOrder.restaurant">
                         <a [routerLink]="['/restaurant', foodOrder.restaurant?.id, 'view']">{{foodOrder.restaurant?.nameSlug}}</a>
                     </div>
                 </dd>
-                <dt><span jhiTranslate="propsyBackendv01App.foodOrder.orderee">Orderee</span></dt>
+                <dt><span jhiTranslate="propsyBackendJwtApp.foodOrder.deliveryman">Deliveryman</span></dt>
                 <dd>
-                    <div *ngIf="foodOrder.orderee">
-                        <a [routerLink]="['/customer', foodOrder.orderee?.id, 'view']">{{foodOrder.orderee?.name}}</a>
-                    </div>
+                    {{foodOrder.deliveryman?.email}}
                 </dd>
-                <dt><span jhiTranslate="propsyBackendv01App.foodOrder.delivery">Delivery</span></dt>
+                <dt><span jhiTranslate="propsyBackendJwtApp.foodOrder.purchaser">Purchaser</span></dt>
                 <dd>
-                    <div *ngIf="foodOrder.delivery">
-                        <a [routerLink]="['/delivery-personnel', foodOrder.delivery?.id, 'view']">{{foodOrder.delivery?.name}}</a>
-                    </div>
+                    {{foodOrder.purchaser?.email}}
                 </dd>
-                <dt><span jhiTranslate="propsyBackendv01App.foodOrder.foodItems">Food Items</span></dt>
+                <dt><span jhiTranslate="propsyBackendJwtApp.foodOrder.foodItems">Food Items</span></dt>
                 <dd>
                     <span *ngFor="let foodItems of foodOrder.foodItems; let last = last">
                         <a [routerLink]="['/food', foodItems?.id, 'view' ]">{{foodItems.nameSlug}}</a>{{last ? '' : ', '}}

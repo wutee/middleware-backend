@@ -1,7 +1,6 @@
-
 {
-    "propsyBackendv01App": {
-        "foodOrder" : {
+    "propsyBackendJwtApp": {
+        "foodOrder": {
             "home": {
                 "title": "Food Orders",
                 "createLabel": "Create a new Food Order",
@@ -16,18 +15,24 @@
             "detail": {
                 "title": "Food Order"
             },
-            "date": "Date",
-            "lastUpdatedDate": "Last Updated Date",
-            "status": "Status",
-            "price": "Price",
-            "userOpinion": "User Opinion",
-            "userComment": "User Comment",
-            "deliveryManComment": "Delivery Man Comment",
+            "timeRating": "Time Rating",
+            "priceRating": "Price Rating",
+            "qualityRating": "Quality Rating",
             "loyaltyPoints": "Loyalty Points",
+            "addressRating": "Address Rating",
+            "date": "Date",
+            "price": "Price",
+            "status": "Status",
+            "purchaserOpinion": "Purchaser Opinion",
+            "purchaserComment": "Purchaser Comment",
+            "city": "City",
+            "phone": "Phone",
+            "address": "Address",
             "restaurant": "Restaurant",
-            "orderee": "Orderee",
-            "delivery": "Delivery",
-            "foodItems": "Food Items"
+            "deliveryman": "Deliveryman",
+            "purchaser": "Purchaser",
+            "foodItems": "Food Items",
+            "movement": "Movement"
         }
     }
 }

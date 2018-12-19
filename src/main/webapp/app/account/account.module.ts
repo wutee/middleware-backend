@@ -1,10 +1,9 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { PropsyBackendv01SharedModule } from 'app/shared';
+import { PropsyBackendJwtSharedModule } from 'app/shared';
 
 import {
-    SessionsComponent,
     PasswordStrengthBarComponent,
     RegisterComponent,
     ActivateComponent,
@@ -16,7 +15,7 @@ import {
 } from './';
 
 @NgModule({
-    imports: [PropsyBackendv01SharedModule, RouterModule.forChild(accountState)],
+    imports: [PropsyBackendJwtSharedModule, RouterModule.forChild(accountState)],
     declarations: [
         ActivateComponent,
         RegisterComponent,
@@ -24,9 +23,8 @@ import {
         PasswordStrengthBarComponent,
         PasswordResetInitComponent,
         PasswordResetFinishComponent,
-        SessionsComponent,
         SettingsComponent
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class PropsyBackendv01AccountModule {}
+export class PropsyBackendJwtAccountModule {}

@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { JhiAlertService } from 'ng-jhipster';
+import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 
 import { IMenu } from 'app/shared/model/menu.model';
 import { MenuService } from './menu.service';
@@ -24,11 +24,13 @@ export class MenuUpdateComponent implements OnInit {
     foods: IFood[];
 
     constructor(
-        private jhiAlertService: JhiAlertService,
-        private menuService: MenuService,
-        private restaurantService: RestaurantService,
-        private foodService: FoodService,
-        private activatedRoute: ActivatedRoute
+        protected dataUtils: JhiDataUtils,
+        protected jhiAlertService: JhiAlertService,
+        protected menuService: MenuService,
+        protected restaurantService: RestaurantService,
+        protected foodService: FoodService,
+        protected elementRef: ElementRef,
+        protected activatedRoute: ActivatedRoute
     ) {}
 
     ngOnInit() {
@@ -50,6 +52,22 @@ export class MenuUpdateComponent implements OnInit {
         );
     }
 
+    byteSize(field) {
+        return this.dataUtils.byteSize(field);
+    }
+
+    openFile(contentType, field) {
+        return this.dataUtils.openFile(contentType, field);
+    }
+
+    setFileData(event, entity, field, isImage) {
+        this.dataUtils.setFileData(event, entity, field, isImage);
+    }
+
+    clearInputImage(field: string, fieldContentType: string, idInput: string) {
+        this.dataUtils.clearInputImage(this.menu, this.elementRef, field, fieldContentType, idInput);
+    }
+
     previousState() {
         window.history.back();
     }
@@ -63,20 +81,20 @@ export class MenuUpdateComponent implements OnInit {
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<HttpResponse<IMenu>>) {
+    protected subscribeToSaveResponse(result: Observable<HttpResponse<IMenu>>) {
         result.subscribe((res: HttpResponse<IMenu>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
     }
 
-    private onSaveSuccess() {
+    protected onSaveSuccess() {
         this.isSaving = false;
         this.previousState();
     }
 
-    private onSaveError() {
+    protected onSaveError() {
         this.isSaving = false;
     }
 
-    private onError(errorMessage: string) {
+    protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
     }
 

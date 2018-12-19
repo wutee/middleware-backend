@@ -2,22 +2,28 @@
     "name": "FoodOrder",
     "fields": [
         {
+            "fieldName": "timeRating",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "priceRating",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "qualityRating",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "loyaltyPoints",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "addressRating",
+            "fieldType": "Integer"
+        },
+        {
             "fieldName": "date",
             "fieldType": "LocalDate",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
-            "fieldName": "lastUpdatedDate",
-            "fieldType": "LocalDate",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
-            "fieldName": "status",
-            "fieldType": "Integer",
             "fieldValidateRules": [
                 "required"
             ]
@@ -26,24 +32,64 @@
             "fieldName": "price",
             "fieldType": "Float",
             "fieldValidateRules": [
+                "required",
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "OrderStatus",
+            "fieldValues": "NEW,PAYMENT,CONFIRMED,IN_PROGRESS,TO_PICK_UP,IN_DELIVERY,DELIVERED",
+            "fieldValidateRules": [
                 "required"
             ]
         },
         {
-            "fieldName": "userOpinion",
-            "fieldType": "String"
+            "fieldName": "purchaserOpinion",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 250
         },
         {
-            "fieldName": "userComment",
-            "fieldType": "String"
+            "fieldName": "purchaserComment",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 250
         },
         {
-            "fieldName": "deliveryManComment",
-            "fieldType": "String"
+            "fieldName": "city",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 2,
+            "fieldValidateRulesMaxlength": 250
         },
         {
-            "fieldName": "loyaltyPoints",
-            "fieldType": "Integer"
+            "fieldName": "phone",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 2,
+            "fieldValidateRulesMaxlength": 250
+        },
+        {
+            "fieldName": "address",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 2,
+            "fieldValidateRulesMaxlength": 250
         }
     ],
     "relationships": [
@@ -55,15 +101,15 @@
         },
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "orderee",
-            "otherEntityName": "customer",
-            "otherEntityField": "name"
+            "relationshipName": "deliveryman",
+            "otherEntityName": "user",
+            "otherEntityField": "email"
         },
         {
             "relationshipType": "many-to-one",
-            "relationshipName": "delivery",
-            "otherEntityName": "deliveryPersonnel",
-            "otherEntityField": "name"
+            "relationshipName": "purchaser",
+            "otherEntityName": "user",
+            "otherEntityField": "email"
         },
         {
             "relationshipType": "many-to-many",
@@ -72,9 +118,15 @@
             "otherEntityName": "food",
             "otherEntityField": "nameSlug",
             "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "movement",
+            "otherEntityName": "foodOrderMovement",
+            "otherEntityRelationshipName": "foodOrder"
         }
     ],
-    "changelogDate": "20181111183802",
+    "changelogDate": "20181218220408",
     "entityTableName": "food_order",
     "dto": "no",
     "pagination": "no",

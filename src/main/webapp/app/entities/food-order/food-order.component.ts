@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { IFoodOrder } from 'app/shared/model/food-order.model';
-import { Principal } from 'app/core';
+import { AccountService } from 'app/core';
 import { FoodOrderService } from './food-order.service';
 
 @Component({
@@ -17,10 +17,10 @@ export class FoodOrderComponent implements OnInit, OnDestroy {
     eventSubscriber: Subscription;
 
     constructor(
-        private foodOrderService: FoodOrderService,
-        private jhiAlertService: JhiAlertService,
-        private eventManager: JhiEventManager,
-        private principal: Principal
+        protected foodOrderService: FoodOrderService,
+        protected jhiAlertService: JhiAlertService,
+        protected eventManager: JhiEventManager,
+        protected accountService: AccountService
     ) {}
 
     loadAll() {
@@ -34,7 +34,7 @@ export class FoodOrderComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.loadAll();
-        this.principal.identity().then(account => {
+        this.accountService.identity().then(account => {
             this.currentAccount = account;
         });
         this.registerChangeInFoodOrders();
@@ -52,7 +52,7 @@ export class FoodOrderComponent implements OnInit, OnDestroy {
         this.eventSubscriber = this.eventManager.subscribe('foodOrderListModification', response => this.loadAll());
     }
 
-    private onError(errorMessage: string) {
+    protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
     }
 }

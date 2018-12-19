@@ -1,9 +1,9 @@
 <div>
     <h2 id="page-heading">
-        <span jhiTranslate="propsyBackendv01App.menu.home.title">Menus</span>
+        <span jhiTranslate="propsyBackendJwtApp.menu.home.title">Menus</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-menu" [routerLink]="['/menu/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span  jhiTranslate="propsyBackendv01App.menu.home.createLabel">
+            <span  jhiTranslate="propsyBackendJwtApp.menu.home.createLabel">
             Create new Menu
             </span>
         </button>
@@ -15,9 +15,10 @@
             <thead>
             <tr>
             <th><span jhiTranslate="global.field.id">ID</span></th>
-            <th><span jhiTranslate="propsyBackendv01App.menu.nameSlug">Name Slug</span></th>
-            <th><span jhiTranslate="propsyBackendv01App.menu.restaurant">Restaurant</span></th>
-            <th><span jhiTranslate="propsyBackendv01App.menu.foodItems">Food Items</span></th>
+            <th><span jhiTranslate="propsyBackendJwtApp.menu.nameSlug">Name Slug</span></th>
+            <th><span jhiTranslate="propsyBackendJwtApp.menu.photoBlob">Photo Blob</span></th>
+            <th><span jhiTranslate="propsyBackendJwtApp.menu.restaurant">Restaurant</span></th>
+            <th><span jhiTranslate="propsyBackendJwtApp.menu.foodItems">Food Items</span></th>
             <th></th>
             </tr>
             </thead>
@@ -25,6 +26,12 @@
             <tr *ngFor="let menu of menus ;trackBy: trackId">
                 <td><a [routerLink]="['/menu', menu.id, 'view' ]">{{menu.id}}</a></td>
                 <td>{{menu.nameSlug}}</td>
+                <td>
+                    <a *ngIf="menu.photoBlob" (click)="openFile(menu.photoBlobContentType, menu.photoBlob)">
+                        <img [src]="'data:' + menu.photoBlobContentType + ';base64,' + menu.photoBlob" style="max-height: 30px;" alt="menu image"/>
+                    </a>
+                    <span *ngIf="menu.photoBlob">{{menu.photoBlobContentType}}, {{byteSize(menu.photoBlob)}}</span>
+                </td>
                 <td>
                     <div *ngIf="menu.restaurant">
                         <a [routerLink]="['../restaurant', menu.restaurant?.id, 'view' ]" >{{menu.restaurant?.nameSlug}}</a>

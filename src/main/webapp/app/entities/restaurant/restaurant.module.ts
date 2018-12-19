@@ -1,7 +1,8 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { PropsyBackendv01SharedModule } from 'app/shared';
+import { PropsyBackendJwtSharedModule } from 'app/shared';
+import { PropsyBackendJwtAdminModule } from 'app/admin/admin.module';
 import {
     RestaurantComponent,
     RestaurantDetailComponent,
@@ -15,7 +16,7 @@ import {
 const ENTITY_STATES = [...restaurantRoute, ...restaurantPopupRoute];
 
 @NgModule({
-    imports: [PropsyBackendv01SharedModule, RouterModule.forChild(ENTITY_STATES)],
+    imports: [PropsyBackendJwtSharedModule, PropsyBackendJwtAdminModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [
         RestaurantComponent,
         RestaurantDetailComponent,
@@ -26,4 +27,4 @@ const ENTITY_STATES = [...restaurantRoute, ...restaurantPopupRoute];
     entryComponents: [RestaurantComponent, RestaurantUpdateComponent, RestaurantDeleteDialogComponent, RestaurantDeletePopupComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class PropsyBackendv01RestaurantModule {}
+export class PropsyBackendJwtRestaurantModule {}

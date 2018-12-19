@@ -9,10 +9,7 @@ import { IFoodOrder } from 'app/shared/model/food-order.model';
 import { FoodOrderService } from './food-order.service';
 import { IRestaurant } from 'app/shared/model/restaurant.model';
 import { RestaurantService } from 'app/entities/restaurant';
-import { ICustomer } from 'app/shared/model/customer.model';
-import { CustomerService } from 'app/entities/customer';
-import { IDeliveryPersonnel } from 'app/shared/model/delivery-personnel.model';
-import { DeliveryPersonnelService } from 'app/entities/delivery-personnel';
+import { IUser, UserService } from 'app/core';
 import { IFood } from 'app/shared/model/food.model';
 import { FoodService } from 'app/entities/food';
 
@@ -26,22 +23,18 @@ export class FoodOrderUpdateComponent implements OnInit {
 
     restaurants: IRestaurant[];
 
-    customers: ICustomer[];
-
-    deliverypersonnels: IDeliveryPersonnel[];
+    users: IUser[];
 
     foods: IFood[];
     dateDp: any;
-    lastUpdatedDateDp: any;
 
     constructor(
-        private jhiAlertService: JhiAlertService,
-        private foodOrderService: FoodOrderService,
-        private restaurantService: RestaurantService,
-        private customerService: CustomerService,
-        private deliveryPersonnelService: DeliveryPersonnelService,
-        private foodService: FoodService,
-        private activatedRoute: ActivatedRoute
+        protected jhiAlertService: JhiAlertService,
+        protected foodOrderService: FoodOrderService,
+        protected restaurantService: RestaurantService,
+        protected userService: UserService,
+        protected foodService: FoodService,
+        protected activatedRoute: ActivatedRoute
     ) {}
 
     ngOnInit() {
@@ -55,15 +48,9 @@ export class FoodOrderUpdateComponent implements OnInit {
             },
             (res: HttpErrorResponse) => this.onError(res.message)
         );
-        this.customerService.query().subscribe(
-            (res: HttpResponse<ICustomer[]>) => {
-                this.customers = res.body;
-            },
-            (res: HttpErrorResponse) => this.onError(res.message)
-        );
-        this.deliveryPersonnelService.query().subscribe(
-            (res: HttpResponse<IDeliveryPersonnel[]>) => {
-                this.deliverypersonnels = res.body;
+        this.userService.query().subscribe(
+            (res: HttpResponse<IUser[]>) => {
+                this.users = res.body;
             },
             (res: HttpErrorResponse) => this.onError(res.message)
         );
@@ -88,20 +75,20 @@ export class FoodOrderUpdateComponent implements OnInit {
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<HttpResponse<IFoodOrder>>) {
+    protected subscribeToSaveResponse(result: Observable<HttpResponse<IFoodOrder>>) {
         result.subscribe((res: HttpResponse<IFoodOrder>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
     }
 
-    private onSaveSuccess() {
+    protected onSaveSuccess() {
         this.isSaving = false;
         this.previousState();
     }
 
-    private onSaveError() {
+    protected onSaveError() {
         this.isSaving = false;
     }
 
-    private onError(errorMessage: string) {
+    protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
     }
 
@@ -109,11 +96,7 @@ export class FoodOrderUpdateComponent implements OnInit {
         return item.id;
     }
 
-    trackCustomerById(index: number, item: ICustomer) {
-        return item.id;
-    }
-
-    trackDeliveryPersonnelById(index: number, item: IDeliveryPersonnel) {
+    trackUserById(index: number, item: IUser) {
         return item.id;
     }
 

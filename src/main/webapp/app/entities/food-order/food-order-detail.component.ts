@@ -10,7 +10,7 @@ import { IFoodOrder } from 'app/shared/model/food-order.model';
 export class FoodOrderDetailComponent implements OnInit {
     foodOrder: IFoodOrder;
 
-    constructor(private activatedRoute: ActivatedRoute) {}
+    constructor(protected activatedRoute: ActivatedRoute) {}
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ foodOrder }) => {

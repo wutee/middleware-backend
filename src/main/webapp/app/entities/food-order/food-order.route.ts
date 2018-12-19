@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
-import { of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { FoodOrder } from 'app/shared/model/food-order.model';
 import { FoodOrderService } from './food-order.service';
 import { FoodOrderComponent } from './food-order.component';
@@ -16,10 +16,13 @@ import { IFoodOrder } from 'app/shared/model/food-order.model';
 export class FoodOrderResolve implements Resolve<IFoodOrder> {
     constructor(private service: FoodOrderService) {}
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<FoodOrder> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
-            return this.service.find(id).pipe(map((foodOrder: HttpResponse<FoodOrder>) => foodOrder.body));
+            return this.service.find(id).pipe(
+                filter((response: HttpResponse<FoodOrder>) => response.ok),
+                map((foodOrder: HttpResponse<FoodOrder>) => foodOrder.body)
+            );
         }
         return of(new FoodOrder());
     }
@@ -31,7 +34,7 @@ export const foodOrderRoute: Routes = [
         component: FoodOrderComponent,
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'propsyBackendv01App.foodOrder.home.title'
+            pageTitle: 'propsyBackendJwtApp.foodOrder.home.title'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -43,7 +46,7 @@ export const foodOrderRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'propsyBackendv01App.foodOrder.home.title'
+            pageTitle: 'propsyBackendJwtApp.foodOrder.home.title'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -55,7 +58,7 @@ export const foodOrderRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'propsyBackendv01App.foodOrder.home.title'
+            pageTitle: 'propsyBackendJwtApp.foodOrder.home.title'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -67,7 +70,7 @@ export const foodOrderRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'propsyBackendv01App.foodOrder.home.title'
+            pageTitle: 'propsyBackendJwtApp.foodOrder.home.title'
         },
         canActivate: [UserRouteAccessService]
     }
@@ -82,7 +85,7 @@ export const foodOrderPopupRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'propsyBackendv01App.foodOrder.home.title'
+            pageTitle: 'propsyBackendJwtApp.foodOrder.home.title'
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'

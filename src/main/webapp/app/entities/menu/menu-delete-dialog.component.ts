@@ -14,7 +14,7 @@ import { MenuService } from './menu.service';
 export class MenuDeleteDialogComponent {
     menu: IMenu;
 
-    constructor(private menuService: MenuService, public activeModal: NgbActiveModal, private eventManager: JhiEventManager) {}
+    constructor(protected menuService: MenuService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
 
     clear() {
         this.activeModal.dismiss('cancel');
@@ -36,9 +36,9 @@ export class MenuDeleteDialogComponent {
     template: ''
 })
 export class MenuDeletePopupComponent implements OnInit, OnDestroy {
-    private ngbModalRef: NgbModalRef;
+    protected ngbModalRef: NgbModalRef;
 
-    constructor(private activatedRoute: ActivatedRoute, private router: Router, private modalService: NgbModal) {}
+    constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ menu }) => {

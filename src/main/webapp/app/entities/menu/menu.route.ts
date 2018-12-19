@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
-import { of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { Menu } from 'app/shared/model/menu.model';
 import { MenuService } from './menu.service';
 import { MenuComponent } from './menu.component';
@@ -16,10 +16,13 @@ import { IMenu } from 'app/shared/model/menu.model';
 export class MenuResolve implements Resolve<IMenu> {
     constructor(private service: MenuService) {}
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Menu> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
-            return this.service.find(id).pipe(map((menu: HttpResponse<Menu>) => menu.body));
+            return this.service.find(id).pipe(
+                filter((response: HttpResponse<Menu>) => response.ok),
+                map((menu: HttpResponse<Menu>) => menu.body)
+            );
         }
         return of(new Menu());
     }
@@ -31,7 +34,7 @@ export const menuRoute: Routes = [
         component: MenuComponent,
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'propsyBackendv01App.menu.home.title'
+            pageTitle: 'propsyBackendJwtApp.menu.home.title'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -43,7 +46,7 @@ export const menuRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'propsyBackendv01App.menu.home.title'
+            pageTitle: 'propsyBackendJwtApp.menu.home.title'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -55,7 +58,7 @@ export const menuRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'propsyBackendv01App.menu.home.title'
+            pageTitle: 'propsyBackendJwtApp.menu.home.title'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -67,7 +70,7 @@ export const menuRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'propsyBackendv01App.menu.home.title'
+            pageTitle: 'propsyBackendJwtApp.menu.home.title'
         },
         canActivate: [UserRouteAccessService]
     }
@@ -82,7 +85,7 @@ export const menuPopupRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'propsyBackendv01App.menu.home.title'
+            pageTitle: 'propsyBackendJwtApp.menu.home.title'
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'

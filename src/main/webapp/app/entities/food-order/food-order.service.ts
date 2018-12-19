@@ -16,7 +16,7 @@ type EntityArrayResponseType = HttpResponse<IFoodOrder[]>;
 export class FoodOrderService {
     public resourceUrl = SERVER_API_URL + 'api/food-orders';
 
-    constructor(private http: HttpClient) {}
+    constructor(protected http: HttpClient) {}
 
     create(foodOrder: IFoodOrder): Observable<EntityResponseType> {
         const copy = this.convertDateFromClient(foodOrder);
@@ -49,28 +49,26 @@ export class FoodOrderService {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
-    private convertDateFromClient(foodOrder: IFoodOrder): IFoodOrder {
+    protected convertDateFromClient(foodOrder: IFoodOrder): IFoodOrder {
         const copy: IFoodOrder = Object.assign({}, foodOrder, {
-            date: foodOrder.date != null && foodOrder.date.isValid() ? foodOrder.date.format(DATE_FORMAT) : null,
-            lastUpdatedDate:
-                foodOrder.lastUpdatedDate != null && foodOrder.lastUpdatedDate.isValid()
-                    ? foodOrder.lastUpdatedDate.format(DATE_FORMAT)
-                    : null
+            date: foodOrder.date != null && foodOrder.date.isValid() ? foodOrder.date.format(DATE_FORMAT) : null
         });
         return copy;
     }
 
-    private convertDateFromServer(res: EntityResponseType): EntityResponseType {
-        res.body.date = res.body.date != null ? moment(res.body.date) : null;
-        res.body.lastUpdatedDate = res.body.lastUpdatedDate != null ? moment(res.body.lastUpdatedDate) : null;
+    protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
+        if (res.body) {
+            res.body.date = res.body.date != null ? moment(res.body.date) : null;
+        }
         return res;
     }
 
-    private convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
-        res.body.forEach((foodOrder: IFoodOrder) => {
-            foodOrder.date = foodOrder.date != null ? moment(foodOrder.date) : null;
-            foodOrder.lastUpdatedDate = foodOrder.lastUpdatedDate != null ? moment(foodOrder.lastUpdatedDate) : null;
-        });
+    protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
+        if (res.body) {
+            res.body.forEach((foodOrder: IFoodOrder) => {
+                foodOrder.date = foodOrder.date != null ? moment(foodOrder.date) : null;
+            });
+        }
         return res;
     }
 }

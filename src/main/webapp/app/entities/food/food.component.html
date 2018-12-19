@@ -1,9 +1,9 @@
 <div>
     <h2 id="page-heading">
-        <span jhiTranslate="propsyBackendv01App.food.home.title">Foods</span>
+        <span jhiTranslate="propsyBackendJwtApp.food.home.title">Foods</span>
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-food" [routerLink]="['/food/new']">
             <fa-icon [icon]="'plus'"></fa-icon>
-            <span  jhiTranslate="propsyBackendv01App.food.home.createLabel">
+            <span  jhiTranslate="propsyBackendJwtApp.food.home.createLabel">
             Create new Food
             </span>
         </button>
@@ -15,14 +15,14 @@
             <thead>
             <tr>
             <th><span jhiTranslate="global.field.id">ID</span></th>
-            <th><span jhiTranslate="propsyBackendv01App.food.nameSlug">Name Slug</span></th>
-            <th><span jhiTranslate="propsyBackendv01App.food.price">Price</span></th>
-            <th><span jhiTranslate="propsyBackendv01App.food.foodDescription">Food Description</span></th>
-            <th><span jhiTranslate="propsyBackendv01App.food.calories">Calories</span></th>
-            <th><span jhiTranslate="propsyBackendv01App.food.isSpicy">Is Spicy</span></th>
-            <th><span jhiTranslate="propsyBackendv01App.food.isVegetarian">Is Vegetarian</span></th>
-            <th><span jhiTranslate="propsyBackendv01App.food.isGlutenFree">Is Gluten Free</span></th>
-            <th><span jhiTranslate="propsyBackendv01App.food.photoLocation">Photo Location</span></th>
+            <th><span jhiTranslate="propsyBackendJwtApp.food.nameSlug">Name Slug</span></th>
+            <th><span jhiTranslate="propsyBackendJwtApp.food.price">Price</span></th>
+            <th><span jhiTranslate="propsyBackendJwtApp.food.foodDescription">Food Description</span></th>
+            <th><span jhiTranslate="propsyBackendJwtApp.food.calories">Calories</span></th>
+            <th><span jhiTranslate="propsyBackendJwtApp.food.isSpicy">Is Spicy</span></th>
+            <th><span jhiTranslate="propsyBackendJwtApp.food.isVegetarian">Is Vegetarian</span></th>
+            <th><span jhiTranslate="propsyBackendJwtApp.food.isGlutenFree">Is Gluten Free</span></th>
+            <th><span jhiTranslate="propsyBackendJwtApp.food.photoBlob">Photo Blob</span></th>
             <th></th>
             </tr>
             </thead>
@@ -36,7 +36,12 @@
                 <td>{{food.isSpicy}}</td>
                 <td>{{food.isVegetarian}}</td>
                 <td>{{food.isGlutenFree}}</td>
-                <td>{{food.photoLocation}}</td>
+                <td>
+                    <a *ngIf="food.photoBlob" (click)="openFile(food.photoBlobContentType, food.photoBlob)">
+                        <img [src]="'data:' + food.photoBlobContentType + ';base64,' + food.photoBlob" style="max-height: 30px;" alt="food image"/>
+                    </a>
+                    <span *ngIf="food.photoBlob">{{food.photoBlobContentType}}, {{byteSize(food.photoBlob)}}</span>
+                </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

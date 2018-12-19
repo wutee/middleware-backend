@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
-import { of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { Restaurant } from 'app/shared/model/restaurant.model';
 import { RestaurantService } from './restaurant.service';
 import { RestaurantComponent } from './restaurant.component';
@@ -16,10 +16,13 @@ import { IRestaurant } from 'app/shared/model/restaurant.model';
 export class RestaurantResolve implements Resolve<IRestaurant> {
     constructor(private service: RestaurantService) {}
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Restaurant> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
-            return this.service.find(id).pipe(map((restaurant: HttpResponse<Restaurant>) => restaurant.body));
+            return this.service.find(id).pipe(
+                filter((response: HttpResponse<Restaurant>) => response.ok),
+                map((restaurant: HttpResponse<Restaurant>) => restaurant.body)
+            );
         }
         return of(new Restaurant());
     }
@@ -31,7 +34,7 @@ export const restaurantRoute: Routes = [
         component: RestaurantComponent,
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'propsyBackendv01App.restaurant.home.title'
+            pageTitle: 'propsyBackendJwtApp.restaurant.home.title'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -43,7 +46,7 @@ export const restaurantRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'propsyBackendv01App.restaurant.home.title'
+            pageTitle: 'propsyBackendJwtApp.restaurant.home.title'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -55,7 +58,7 @@ export const restaurantRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'propsyBackendv01App.restaurant.home.title'
+            pageTitle: 'propsyBackendJwtApp.restaurant.home.title'
         },
         canActivate: [UserRouteAccessService]
     },
@@ -67,7 +70,7 @@ export const restaurantRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'propsyBackendv01App.restaurant.home.title'
+            pageTitle: 'propsyBackendJwtApp.restaurant.home.title'
         },
         canActivate: [UserRouteAccessService]
     }
@@ -82,7 +85,7 @@ export const restaurantPopupRoute: Routes = [
         },
         data: {
             authorities: ['ROLE_USER'],
-            pageTitle: 'propsyBackendv01App.restaurant.home.title'
+            pageTitle: 'propsyBackendJwtApp.restaurant.home.title'
         },
         canActivate: [UserRouteAccessService],
         outlet: 'popup'

@@ -29,7 +29,7 @@ public class RestaurantResource {
 
     private static final String ENTITY_NAME = "restaurant";
 
-    private RestaurantRepository restaurantRepository;
+    private final RestaurantRepository restaurantRepository;
 
     public RestaurantResource(RestaurantRepository restaurantRepository) {
         this.restaurantRepository = restaurantRepository;

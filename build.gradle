@@ -10,16 +10,18 @@ buildscript {
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}"
         classpath "io.spring.gradle:propdeps-plugin:0.0.10.RELEASE"
+        classpath "org.openapitools:openapi-generator-gradle-plugin:3.3.0"
         classpath "gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:1.5.2"
+        classpath 'gradle.plugin.com.heroku.sdk:heroku-gradle:1.0.4'
         //jhipster-needle-gradle-buildscript-dependency - JHipster will add additional gradle build script plugins here
     }
 }
 
 plugins {
     id "org.sonarqube" version "2.6.2"
-    id "net.ltgt.apt-eclipse" version "0.18"
-    id "net.ltgt.apt-idea" version "0.18"
-    id "net.ltgt.apt" version "0.18"
+    id "net.ltgt.apt-eclipse" version "0.19"
+    id "net.ltgt.apt-idea" version "0.19"
+    id "net.ltgt.apt" version "0.19"
     id "io.spring.dependency-management" version "1.0.6.RELEASE"
     id "com.moowork.node" version "1.2.0"
     id 'org.liquibase.gradle' version '2.0.1'
@@ -55,15 +57,17 @@ version = '0.0.1-SNAPSHOT'
 description = ''
 
 bootWar {
-   mainClassName = 'com.propsy.backend.PropsyBackendv01App'
+   mainClassName = 'com.propsy.backend.PropsyBackendJwtApp'
 }
 
 war {
-
+    webAppDirName = 'build/www/'
+    enabled = true
+    classifier = 'original'
 }
 
 springBoot {
-    mainClassName = 'com.propsy.backend.PropsyBackendv01App'
+    mainClassName = 'com.propsy.backend.PropsyBackendJwtApp'
     buildInfo()
 }
 
@@ -107,6 +111,8 @@ task testReport(type: TestReport) {
 
 apply from: 'gradle/docker.gradle'
 apply from: 'gradle/sonar.gradle'
+apply from: 'gradle/swagger.gradle'
+apply from: 'gradle/heroku.gradle'
 //jhipster-needle-gradle-apply-from - JHipster will add additional gradle scripts to be applied here
 
 if (project.hasProperty('prod')) {
@@ -115,6 +121,10 @@ if (project.hasProperty('prod')) {
     apply from: 'gradle/profile_dev.gradle'
 }
 
+
+if (project.hasProperty('zipkin')) {
+    apply from: 'gradle/zipkin.gradle'
+}
 
 if (!project.hasProperty('runList')) {
     project.ext.runList = 'main'
@@ -125,25 +135,25 @@ project.ext.diffChangelogFile = 'src/main/resources/config/liquibase/changelog/'
 liquibase {
     activities {
         main {
-            driver 'com.mysql.jdbc.Driver'
-            url 'jdbc:mysql://localhost:3306/propsyBackendv01'
-            username 'root'
+            driver 'org.h2.Driver'
+            url 'jdbc:h2:file:./target/h2db/db/propsybackendjwt'
+            username 'propsyBackendJwt'
             password ''
             changeLogFile 'src/main/resources/config/liquibase/master.xml'
-            defaultSchemaName 'propsyBackendv01'
+            defaultSchemaName ''
             logLevel 'debug'
             classpath 'src/main/resources/'
         }
         diffLog {
-            driver 'com.mysql.jdbc.Driver'
-            url 'jdbc:mysql://localhost:3306/propsyBackendv01'
-            username 'root'
+            driver 'org.h2.Driver'
+            url 'jdbc:h2:file:./target/h2db/db/propsybackendjwt'
+            username 'propsyBackendJwt'
             password ''
             changeLogFile project.ext.diffChangelogFile
-            referenceUrl 'hibernate:spring:com.propsy.backend.domain?dialect=org.hibernate.dialect.MySQL5InnoDBDialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy'
-            defaultSchemaName 'propsyBackendv01'
+            referenceUrl 'hibernate:spring:com.propsy.backend.domain?dialect=org.hibernate.dialect.H2Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy'
+            defaultSchemaName ''
             logLevel 'debug'
-            classpath 'src/main/resources/'
+            classpath "$buildDir/classes/java/main"
         }
     }
 
@@ -166,9 +176,7 @@ dependencies {
     // Use ", version: jhipster_dependencies_version, changing: true" if you want
     // to use a SNAPSHOT release instead of a stable release
     compile group: "io.github.jhipster", name: "jhipster-framework"
-    compile "org.springframework.boot:spring-boot-starter-cache"
     compile "io.dropwizard.metrics:metrics-core"
-    compile "io.dropwizard.metrics:metrics-jcache"
     compile "io.dropwizard.metrics:metrics-json"
     compile "io.dropwizard.metrics:metrics-jvm"
     compile "io.dropwizard.metrics:metrics-servlet"
@@ -184,13 +192,11 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-databind"
     compile "com.fasterxml.jackson.module:jackson-module-afterburner"
     compile "com.ryantenney.metrics:metrics-spring"
-    compile "javax.cache:cache-api"
     compile "org.hibernate:hibernate-core"
     compile "com.zaxxer:HikariCP"
     compile "org.apache.commons:commons-lang3"
     compile "commons-io:commons-io"
     compile "javax.transaction:javax.transaction-api"
-    compile "org.ehcache:ehcache"
     compile "org.hibernate:hibernate-entitymanager"
     compile "org.hibernate:hibernate-envers"
     compile "org.hibernate.validator:hibernate-validator"
@@ -210,12 +216,19 @@ dependencies {
         exclude module: 'spring-boot-starter-tomcat'
     }
     compile "org.springframework.boot:spring-boot-starter-undertow"
+    compile "org.springframework.boot:spring-boot-starter-websocket"
     compile "org.springframework.boot:spring-boot-starter-thymeleaf"
     compile "org.zalando:problem-spring-web:0.24.0-RC.0"
+    compile "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+    compile "org.springframework.cloud:spring-cloud-starter-config"
     compile "org.springframework.boot:spring-boot-starter-cloud-connectors"
     compile "org.springframework.security:spring-security-config"
     compile "org.springframework.security:spring-security-data"
     compile "org.springframework.security:spring-security-web"
+    compile "org.springframework.security:spring-security-messaging"
+    compile "io.jsonwebtoken:jjwt-api"
+    runtime "io.jsonwebtoken:jjwt-impl"
+    runtime "io.jsonwebtoken:jjwt-jackson"
     compile ("io.springfox:springfox-swagger2") {
         exclude module: 'mapstruct'
     }
@@ -240,6 +253,9 @@ dependencies {
     testCompile "com.mattbertolini:liquibase-slf4j"
     testCompile "org.hamcrest:hamcrest-library"
     testCompile "com.h2database:h2"
+    liquibaseRuntime "com.h2database:h2"
+    compile "org.springframework.cloud:spring-cloud-localconfig-connector"
+    compile "org.springframework.cloud:spring-cloud-heroku-connector"
     //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
 }
 
@@ -263,6 +279,7 @@ if (project.hasProperty('nodeInstall')) {
     }
 }
 
+bootWar.dependsOn war
 compileJava.dependsOn processResources
 processResources.dependsOn cleanResources,bootBuildInfo
 bootBuildInfo.mustRunAfter cleanResources

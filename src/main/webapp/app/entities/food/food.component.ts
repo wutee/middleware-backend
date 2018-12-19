@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 
 import { IFood } from 'app/shared/model/food.model';
-import { Principal } from 'app/core';
+import { AccountService } from 'app/core';
 import { FoodService } from './food.service';
 
 @Component({
@@ -17,10 +17,11 @@ export class FoodComponent implements OnInit, OnDestroy {
     eventSubscriber: Subscription;
 
     constructor(
-        private foodService: FoodService,
-        private jhiAlertService: JhiAlertService,
-        private eventManager: JhiEventManager,
-        private principal: Principal
+        protected foodService: FoodService,
+        protected jhiAlertService: JhiAlertService,
+        protected dataUtils: JhiDataUtils,
+        protected eventManager: JhiEventManager,
+        protected accountService: AccountService
     ) {}
 
     loadAll() {
@@ -34,7 +35,7 @@ export class FoodComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.loadAll();
-        this.principal.identity().then(account => {
+        this.accountService.identity().then(account => {
             this.currentAccount = account;
         });
         this.registerChangeInFoods();
@@ -48,11 +49,19 @@ export class FoodComponent implements OnInit, OnDestroy {
         return item.id;
     }
 
+    byteSize(field) {
+        return this.dataUtils.byteSize(field);
+    }
+
+    openFile(contentType, field) {
+        return this.dataUtils.openFile(contentType, field);
+    }
+
     registerChangeInFoods() {
         this.eventSubscriber = this.eventManager.subscribe('foodListModification', response => this.loadAll());
     }
 
-    private onError(errorMessage: string) {
+    protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
     }
 }

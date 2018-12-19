@@ -13,7 +13,7 @@ type EntityArrayResponseType = HttpResponse<IRestaurant[]>;
 export class RestaurantService {
     public resourceUrl = SERVER_API_URL + 'api/restaurants';
 
-    constructor(private http: HttpClient) {}
+    constructor(protected http: HttpClient) {}
 
     create(restaurant: IRestaurant): Observable<EntityResponseType> {
         return this.http.post<IRestaurant>(this.resourceUrl, restaurant, { observe: 'response' });

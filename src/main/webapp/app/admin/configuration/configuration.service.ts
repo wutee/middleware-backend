@@ -40,7 +40,7 @@ export class JhiConfigurationService {
             }
         }
         // by default, use the default ApplicationContext Id
-        return res['contexts']['propsyBackendv01']['beans'];
+        return res['contexts']['propsyBackendJwt']['beans'];
     }
 
     getEnv(): Observable<any> {

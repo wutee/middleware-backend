@@ -1,40 +1,50 @@
 {
-  "generator-jhipster": {
-    "promptValues": {
-      "packageName": "com.propsy.backend",
-      "nativeLanguage": "en"
-    },
-    "jhipsterVersion": "5.5.0",
-    "applicationType": "monolith",
-    "baseName": "propsyBackendv01",
-    "packageName": "com.propsy.backend",
-    "packageFolder": "com/propsy/backend",
-    "serverPort": "8080",
-    "authenticationType": "session",
-    "cacheProvider": "ehcache",
-    "enableHibernateCache": false,
-    "websocket": false,
-    "databaseType": "sql",
-    "devDatabaseType": "mysql",
-    "prodDatabaseType": "mysql",
-    "searchEngine": false,
-    "messageBroker": false,
-    "serviceDiscoveryType": false,
-    "buildTool": "gradle",
-    "enableSwaggerCodegen": false,
-    "rememberMeKey": "7129fb32c8ec9e7b96876d603792996995edc730ad0dbbe9ee975bd09c74cd11df867c0507a87d47f46286b846f5bb4870cf",
-    "clientFramework": "angularX",
-    "useSass": false,
-    "clientPackageManager": "npm",
-    "testFrameworks": [],
-    "jhiPrefix": "jhi",
-    "enableTranslation": true,
-    "nativeLanguage": "en",
-    "languages": [
-      "en",
-      "fr",
-      "de",
-      "pl"
-    ]
-  }
+    "generator-jhipster": {
+        "promptValues": {
+            "packageName": "com.propsy.backend",
+            "nativeLanguage": "pl"
+        },
+        "jhipsterVersion": "5.7.1",
+        "applicationType": "monolith",
+        "baseName": "propsyBackendJwt",
+        "packageName": "com.propsy.backend",
+        "packageFolder": "com/propsy/backend",
+        "serverPort": "8080",
+        "authenticationType": "jwt",
+        "cacheProvider": "no",
+        "websocket": "spring-websocket",
+        "databaseType": "sql",
+        "devDatabaseType": "h2Disk",
+        "prodDatabaseType": "mysql",
+        "searchEngine": false,
+        "messageBroker": false,
+        "serviceDiscoveryType": "eureka",
+        "buildTool": "gradle",
+        "enableSwaggerCodegen": true,
+        "jwtSecretKey": "YjJmM2VkMmUwODYxMDNhOWFiODBjMmVhMzI3MzdiNzAzNDVmZmUxNmZmNmQ4ZDFjZjIwODViY2NmOGUzMjZhNzljMGI5ZjNiYmE0MGQ3OWMwYzA0MTE3ZDUyMzA4YWE4NTE3M2JiOTA5OWNjZmMzYzUzMDkxMjNmM2I5OGIzNzA=",
+        "clientFramework": "angularX",
+        "useSass": true,
+        "clientPackageManager": "npm",
+        "testFrameworks": ["protractor"],
+        "jhiPrefix": "jhi",
+        "otherModules": [
+            {
+                "name": "generator-jhipster-nav-element",
+                "version": "2.1.0"
+            },
+            {
+                "name": "generator-jhipster-leafletmap",
+                "version": "2.0.0"
+            },
+            {
+                "name": "generator-jhipster-social-login-api",
+                "version": "0.0.1"
+            }
+        ],
+        "enableTranslation": true,
+        "nativeLanguage": "pl",
+        "languages": ["pl", "en"],
+        "herokuAppName": "propsy-backend-jwt",
+        "herokuDeployType": "git"
+    }
 }

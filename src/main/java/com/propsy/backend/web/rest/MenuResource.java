@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -28,7 +29,7 @@ public class MenuResource {
 
     private static final String ENTITY_NAME = "menu";
 
-    private MenuRepository menuRepository;
+    private final MenuRepository menuRepository;
 
     public MenuResource(MenuRepository menuRepository) {
         this.menuRepository = menuRepository;
@@ -43,7 +44,7 @@ public class MenuResource {
      */
     @PostMapping("/menus")
     @Timed
-    public ResponseEntity<Menu> createMenu(@RequestBody Menu menu) throws URISyntaxException {
+    public ResponseEntity<Menu> createMenu(@Valid @RequestBody Menu menu) throws URISyntaxException {
         log.debug("REST request to save Menu : {}", menu);
         if (menu.getId() != null) {
             throw new BadRequestAlertException("A new menu cannot already have an ID", ENTITY_NAME, "idexists");
@@ -65,7 +66,7 @@ public class MenuResource {
      */
     @PutMapping("/menus")
     @Timed
-    public ResponseEntity<Menu> updateMenu(@RequestBody Menu menu) throws URISyntaxException {
+    public ResponseEntity<Menu> updateMenu(@Valid @RequestBody Menu menu) throws URISyntaxException {
         log.debug("REST request to update Menu : {}", menu);
         if (menu.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

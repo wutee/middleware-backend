@@ -14,7 +14,11 @@ import { RestaurantService } from './restaurant.service';
 export class RestaurantDeleteDialogComponent {
     restaurant: IRestaurant;
 
-    constructor(private restaurantService: RestaurantService, public activeModal: NgbActiveModal, private eventManager: JhiEventManager) {}
+    constructor(
+        protected restaurantService: RestaurantService,
+        public activeModal: NgbActiveModal,
+        protected eventManager: JhiEventManager
+    ) {}
 
     clear() {
         this.activeModal.dismiss('cancel');
@@ -36,9 +40,9 @@ export class RestaurantDeleteDialogComponent {
     template: ''
 })
 export class RestaurantDeletePopupComponent implements OnInit, OnDestroy {
-    private ngbModalRef: NgbModalRef;
+    protected ngbModalRef: NgbModalRef;
 
-    constructor(private activatedRoute: ActivatedRoute, private router: Router, private modalService: NgbModal) {}
+    constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ restaurant }) => {

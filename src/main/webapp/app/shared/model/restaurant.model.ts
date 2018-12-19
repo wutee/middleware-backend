@@ -1,15 +1,19 @@
-import { IMenu } from 'app/shared/model//menu.model';
+import { IUser } from 'app/core/user/user.model';
 import { IFoodOrder } from 'app/shared/model//food-order.model';
-import { IRestaurantWorker } from 'app/shared/model//restaurant-worker.model';
+import { IMenu } from 'app/shared/model//menu.model';
 
 export interface IRestaurant {
     id?: number;
     nameSlug?: string;
     address?: string;
-    ownerId?: string;
-    menus?: IMenu[];
+    city?: string;
+    latitude?: number;
+    longitude?: number;
+    photoBlobContentType?: string;
+    photoBlob?: any;
+    worker?: IUser;
     orders?: IFoodOrder[];
-    employees?: IRestaurantWorker[];
+    menus?: IMenu[];
 }
 
 export class Restaurant implements IRestaurant {
@@ -17,9 +21,13 @@ export class Restaurant implements IRestaurant {
         public id?: number,
         public nameSlug?: string,
         public address?: string,
-        public ownerId?: string,
-        public menus?: IMenu[],
+        public city?: string,
+        public latitude?: number,
+        public longitude?: number,
+        public photoBlobContentType?: string,
+        public photoBlob?: any,
+        public worker?: IUser,
         public orders?: IFoodOrder[],
-        public employees?: IRestaurantWorker[]
+        public menus?: IMenu[]
     ) {}
 }

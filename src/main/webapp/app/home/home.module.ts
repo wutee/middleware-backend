@@ -1,12 +1,12 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { PropsyBackendv01SharedModule } from 'app/shared';
+import { PropsyBackendJwtSharedModule } from 'app/shared';
 import { HOME_ROUTE, HomeComponent } from './';
 
 @NgModule({
-    imports: [PropsyBackendv01SharedModule, RouterModule.forChild([HOME_ROUTE])],
+    imports: [PropsyBackendJwtSharedModule, RouterModule.forChild([HOME_ROUTE])],
     declarations: [HomeComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class PropsyBackendv01HomeModule {}
+export class PropsyBackendJwtHomeModule {}

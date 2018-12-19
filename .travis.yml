@@ -4,7 +4,7 @@ services:
   - docker
 language: node_js
 node_js:
-  - "8.12.0"
+  - "10.14.1"
 jdk:
   - oraclejdk8
 sudo: false
@@ -15,10 +15,10 @@ cache:
     - $HOME/.gradle
 env:
   global:
-    - NODE_VERSION=8.12.0
+    - NODE_VERSION=10.14.1
     - SPRING_OUTPUT_ANSI_ENABLED=ALWAYS
     - SPRING_JPA_SHOW_SQL=false
-    - secure: asLyUhX6AnGZiwwQDrOPVzztTcimSQMBpXa0immAQlokDglBwbjAzHhCDueovBuDe6o+bH+UJpnxoGh7tc5lwy7KJHyBwu+emCxqiantGYqJdrhLtm1USM8VPbuWiEIicsOTdhrI1Oemv8fshbeptWyM4sM/DrwMucllWnjk4S7BBj/lQD/pvb80u4gg+rErfjNUXgIR9k0pmB30hdZCHX9J/IXo4xlElSeYBctCePOOMYW9rthytvu/e6rkfY29bN6Ej4MO5hoSr9TyEE35lm42dUkGWgjfLc3fA+rZt0U9LKClBzc9ZPFcI9HN6rw83mDSqfgFh0HAJUOph1nkF7Q1+fyY7+9m41l4BqxQ8HTk+62a6z1YECbTITCvW8/wOgv3gZtSpM/KDUPHveBgKiOIoAmMLljb1G0xOAwiM47wesQCYREdCM7HUSRrF2HDNyJa4YRMScj3FyT9lkkCNOO7bNu6W8PLcCK7um3I32wLyw7C4VZJ84EJc0ArGhXx2CnCS4JgZRZ8oydZLol0loj8PEiUlvOO3a7bCigFClCXE1YZ5+xD9qpBGpTiZfnVPacNjnpyvSG7T4H/had65y24tnJE4I0ihbPxCyFWu5uR/3CeLbBPdIj4ArrLNZMuqRONojkTdXmuw6KGlk9+hqAA5JwfoNNjkKZwRKsz6G0=
+    - JHI_DISABLE_WEBPACK_LOGS=true
 before_install:
   - jdk_switcher use oraclejdk8
   - java -version
@@ -33,9 +33,8 @@ install:
 script:
   - chmod +x gradlew
   - ./gradlew clean test
-  - npm test -- -u
+  - ./gradlew npm_run_test -PnodeInstall --no-daemon
   - ./gradlew bootWar -Pprod -x test
-  - ./gradlew deployHeroku
 notifications:
   webhooks:
     on_success: change  # options: [always|never|change] default: always

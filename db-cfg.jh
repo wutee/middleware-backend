@@ -32,6 +32,9 @@ entity Food {
 }
 
 entity FoodOrder {
+	address String required
+    city String required
+  	phone String required
 	date LocalDate required
     lastUpdatedDate LocalDate required
     status Integer required
@@ -50,7 +53,7 @@ entity PaymentMethod {
 	paymentName String required
 }
 
-entity Customer {					//polaczyc z jhi_user
+entity Customer {					// polaczyc z jhi_user
 	name String required
     mail String required
     role Integer
@@ -60,7 +63,7 @@ entity Customer {					//polaczyc z jhi_user
     loyaltyPoints Integer
 }
 
-entity Translation {				//internationalization support wbudowany w jhipster
+entity Translation {				// internationalization support wbudowany w jhipster
 	translation String required
 }
 
@@ -72,7 +75,7 @@ entity Ingredient {
 	nameSlug String required
     price Float required
     photoLocation String
-    ingredientDescription String	//comment?
+    ingredientDescription String	// comment?
 }
 
 entity IngredientOrder {
@@ -84,6 +87,17 @@ entity IngredientOrder {
 entity DeliveryPersonnel {
 	name String required
     surname String required
+}
+
+entity ExtendedUser {					// polaczyc z jhi_user
+    workingStatus Integer
+	name String required
+    mail String required
+    role Integer
+    address String
+    city String
+  	phone String
+    loyaltyPoints Integer
 }
 
 //=========================================================================================

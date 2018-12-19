@@ -1,13 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { JhiAlertService } from 'ng-jhipster';
+import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 
 import { IFood } from 'app/shared/model/food.model';
 import { FoodService } from './food.service';
-import { ITranslation } from 'app/shared/model/translation.model';
-import { TranslationService } from 'app/entities/translation';
 import { IMenu } from 'app/shared/model/menu.model';
 import { MenuService } from 'app/entities/menu';
 import { IFoodOrder } from 'app/shared/model/food-order.model';
@@ -21,19 +19,18 @@ export class FoodUpdateComponent implements OnInit {
     food: IFood;
     isSaving: boolean;
 
-    translations: ITranslation[];
-
     menus: IMenu[];
 
     foodorders: IFoodOrder[];
 
     constructor(
-        private jhiAlertService: JhiAlertService,
-        private foodService: FoodService,
-        private translationService: TranslationService,
-        private menuService: MenuService,
-        private foodOrderService: FoodOrderService,
-        private activatedRoute: ActivatedRoute
+        protected dataUtils: JhiDataUtils,
+        protected jhiAlertService: JhiAlertService,
+        protected foodService: FoodService,
+        protected menuService: MenuService,
+        protected foodOrderService: FoodOrderService,
+        protected elementRef: ElementRef,
+        protected activatedRoute: ActivatedRoute
     ) {}
 
     ngOnInit() {
@@ -41,12 +38,6 @@ export class FoodUpdateComponent implements OnInit {
         this.activatedRoute.data.subscribe(({ food }) => {
             this.food = food;
         });
-        this.translationService.query().subscribe(
-            (res: HttpResponse<ITranslation[]>) => {
-                this.translations = res.body;
-            },
-            (res: HttpErrorResponse) => this.onError(res.message)
-        );
         this.menuService.query().subscribe(
             (res: HttpResponse<IMenu[]>) => {
                 this.menus = res.body;
@@ -59,6 +50,22 @@ export class FoodUpdateComponent implements OnInit {
             },
             (res: HttpErrorResponse) => this.onError(res.message)
         );
+    }
+
+    byteSize(field) {
+        return this.dataUtils.byteSize(field);
+    }
+
+    openFile(contentType, field) {
+        return this.dataUtils.openFile(contentType, field);
+    }
+
+    setFileData(event, entity, field, isImage) {
+        this.dataUtils.setFileData(event, entity, field, isImage);
+    }
+
+    clearInputImage(field: string, fieldContentType: string, idInput: string) {
+        this.dataUtils.clearInputImage(this.food, this.elementRef, field, fieldContentType, idInput);
     }
 
     previousState() {
@@ -74,25 +81,21 @@ export class FoodUpdateComponent implements OnInit {
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<HttpResponse<IFood>>) {
+    protected subscribeToSaveResponse(result: Observable<HttpResponse<IFood>>) {
         result.subscribe((res: HttpResponse<IFood>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
     }
 
-    private onSaveSuccess() {
+    protected onSaveSuccess() {
         this.isSaving = false;
         this.previousState();
     }
 
-    private onSaveError() {
+    protected onSaveError() {
         this.isSaving = false;
     }
 
-    private onError(errorMessage: string) {
+    protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
-    }
-
-    trackTranslationById(index: number, item: ITranslation) {
-        return item.id;
     }
 
     trackMenuById(index: number, item: IMenu) {

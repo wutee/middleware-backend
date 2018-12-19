@@ -3,6 +3,7 @@ package com.propsy.backend.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -22,8 +23,17 @@ public class Menu implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name_slug")
+    @NotNull
+    @Size(min = 2, max = 250)
+    @Column(name = "name_slug", length = 250, nullable = false)
     private String nameSlug;
+
+    @Lob
+    @Column(name = "photo_blob")
+    private byte[] photoBlob;
+
+    @Column(name = "photo_blob_content_type")
+    private String photoBlobContentType;
 
     @ManyToOne
     @JsonIgnoreProperties("menus")
@@ -55,6 +65,32 @@ public class Menu implements Serializable {
 
     public void setNameSlug(String nameSlug) {
         this.nameSlug = nameSlug;
+    }
+
+    public byte[] getPhotoBlob() {
+        return photoBlob;
+    }
+
+    public Menu photoBlob(byte[] photoBlob) {
+        this.photoBlob = photoBlob;
+        return this;
+    }
+
+    public void setPhotoBlob(byte[] photoBlob) {
+        this.photoBlob = photoBlob;
+    }
+
+    public String getPhotoBlobContentType() {
+        return photoBlobContentType;
+    }
+
+    public Menu photoBlobContentType(String photoBlobContentType) {
+        this.photoBlobContentType = photoBlobContentType;
+        return this;
+    }
+
+    public void setPhotoBlobContentType(String photoBlobContentType) {
+        this.photoBlobContentType = photoBlobContentType;
     }
 
     public Restaurant getRestaurant() {
@@ -121,6 +157,8 @@ public class Menu implements Serializable {
         return "Menu{" +
             "id=" + getId() +
             ", nameSlug='" + getNameSlug() + "'" +
+            ", photoBlob='" + getPhotoBlob() + "'" +
+            ", photoBlobContentType='" + getPhotoBlobContentType() + "'" +
             "}";
     }
 }

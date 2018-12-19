@@ -5,25 +5,17 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20181111183758_added_entity_Restaurant.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20181111183759_added_entity_RestaurantWorker.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20181111183800_added_entity_Menu.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20181111183801_added_entity_Food.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20181111183802_added_entity_FoodOrder.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20181111183803_added_entity_Payment.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20181111183804_added_entity_PaymentMethod.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20181111183805_added_entity_Customer.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20181111183806_added_entity_Translation.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20181111183807_added_entity_Language.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20181111183808_added_entity_Ingredient.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20181111183809_added_entity_IngredientOrder.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20181111183810_added_entity_DeliveryPersonnel.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181218220405_added_entity_Restaurant.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181218220406_added_entity_Menu.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181218220407_added_entity_Food.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181218220408_added_entity_FoodOrder.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181218220409_added_entity_FoodOrderMovement.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181218220410_added_entity_ExtendedUser.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
-    <include file="config/liquibase/changelog/20181111183759_added_entity_constraints_RestaurantWorker.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20181111183800_added_entity_constraints_Menu.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20181111183802_added_entity_constraints_FoodOrder.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20181111183804_added_entity_constraints_PaymentMethod.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20181111183806_added_entity_constraints_Translation.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20181111183809_added_entity_constraints_IngredientOrder.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181218220405_added_entity_constraints_Restaurant.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181218220406_added_entity_constraints_Menu.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181218220408_added_entity_constraints_FoodOrder.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181218220409_added_entity_constraints_FoodOrderMovement.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181218220410_added_entity_constraints_ExtendedUser.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

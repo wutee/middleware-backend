@@ -1,13 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { JhiAlertService } from 'ng-jhipster';
+import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 
 import { IRestaurant } from 'app/shared/model/restaurant.model';
 import { RestaurantService } from './restaurant.service';
-import { IRestaurantWorker } from 'app/shared/model/restaurant-worker.model';
-import { RestaurantWorkerService } from 'app/entities/restaurant-worker';
+import { IUser, UserService } from 'app/core';
 
 @Component({
     selector: 'jhi-restaurant-update',
@@ -17,13 +16,15 @@ export class RestaurantUpdateComponent implements OnInit {
     restaurant: IRestaurant;
     isSaving: boolean;
 
-    restaurantworkers: IRestaurantWorker[];
+    users: IUser[];
 
     constructor(
-        private jhiAlertService: JhiAlertService,
-        private restaurantService: RestaurantService,
-        private restaurantWorkerService: RestaurantWorkerService,
-        private activatedRoute: ActivatedRoute
+        protected dataUtils: JhiDataUtils,
+        protected jhiAlertService: JhiAlertService,
+        protected restaurantService: RestaurantService,
+        protected userService: UserService,
+        protected elementRef: ElementRef,
+        protected activatedRoute: ActivatedRoute
     ) {}
 
     ngOnInit() {
@@ -31,12 +32,28 @@ export class RestaurantUpdateComponent implements OnInit {
         this.activatedRoute.data.subscribe(({ restaurant }) => {
             this.restaurant = restaurant;
         });
-        this.restaurantWorkerService.query().subscribe(
-            (res: HttpResponse<IRestaurantWorker[]>) => {
-                this.restaurantworkers = res.body;
+        this.userService.query().subscribe(
+            (res: HttpResponse<IUser[]>) => {
+                this.users = res.body;
             },
             (res: HttpErrorResponse) => this.onError(res.message)
         );
+    }
+
+    byteSize(field) {
+        return this.dataUtils.byteSize(field);
+    }
+
+    openFile(contentType, field) {
+        return this.dataUtils.openFile(contentType, field);
+    }
+
+    setFileData(event, entity, field, isImage) {
+        this.dataUtils.setFileData(event, entity, field, isImage);
+    }
+
+    clearInputImage(field: string, fieldContentType: string, idInput: string) {
+        this.dataUtils.clearInputImage(this.restaurant, this.elementRef, field, fieldContentType, idInput);
     }
 
     previousState() {
@@ -52,35 +69,24 @@ export class RestaurantUpdateComponent implements OnInit {
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<HttpResponse<IRestaurant>>) {
+    protected subscribeToSaveResponse(result: Observable<HttpResponse<IRestaurant>>) {
         result.subscribe((res: HttpResponse<IRestaurant>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
     }
 
-    private onSaveSuccess() {
+    protected onSaveSuccess() {
         this.isSaving = false;
         this.previousState();
     }
 
-    private onSaveError() {
+    protected onSaveError() {
         this.isSaving = false;
     }
 
-    private onError(errorMessage: string) {
+    protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
     }
 
-    trackRestaurantWorkerById(index: number, item: IRestaurantWorker) {
+    trackUserById(index: number, item: IUser) {
         return item.id;
-    }
-
-    getSelected(selectedVals: Array<any>, option: any) {
-        if (selectedVals) {
-            for (let i = 0; i < selectedVals.length; i++) {
-                if (option.id === selectedVals[i].id) {
-                    return selectedVals[i];
-                }
-            }
-        }
-        return option;
     }
 }

@@ -17,6 +17,12 @@ import java.util.Optional;
 @Repository
 public interface FoodOrderRepository extends JpaRepository<FoodOrder, Long> {
 
+    @Query("select food_order from FoodOrder food_order where food_order.deliveryman.login = ?#{principal.username}")
+    List<FoodOrder> findByDeliverymanIsCurrentUser();
+
+    @Query("select food_order from FoodOrder food_order where food_order.purchaser.login = ?#{principal.username}")
+    List<FoodOrder> findByPurchaserIsCurrentUser();
+
     @Query(value = "select distinct food_order from FoodOrder food_order left join fetch food_order.foodItems",
         countQuery = "select count(distinct food_order) from FoodOrder food_order")
     Page<FoodOrder> findAllWithEagerRelationships(Pageable pageable);

@@ -14,7 +14,7 @@ jib {
         image = 'openjdk:8-jre-alpine'
     }
     to {
-        image = 'propsybackendv01:latest'
+        image = 'propsybackendjwt:latest'
     }
     container {
         entrypoint = ['sh', '-c', 'chmod +x /entrypoint.sh && sync && /entrypoint.sh']
@@ -26,3 +26,10 @@ jib {
         useCurrentTimestamp = true
     }
 }
+
+task copyWwwIntoStatic (type: Copy) {
+    from 'build/www/'
+    into 'build/resources/main/static'
+}
+
+jibDockerBuild.dependsOn copyWwwIntoStatic

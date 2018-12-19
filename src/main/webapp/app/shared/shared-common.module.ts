@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 
-import { PropsyBackendv01SharedLibsModule, FindLanguageFromKeyPipe, JhiAlertComponent, JhiAlertErrorComponent } from './';
+import { PropsyBackendJwtSharedLibsModule, FindLanguageFromKeyPipe, JhiAlertComponent, JhiAlertErrorComponent } from './';
 
 @NgModule({
-    imports: [PropsyBackendv01SharedLibsModule],
+    imports: [PropsyBackendJwtSharedLibsModule],
     declarations: [FindLanguageFromKeyPipe, JhiAlertComponent, JhiAlertErrorComponent],
-    exports: [PropsyBackendv01SharedLibsModule, FindLanguageFromKeyPipe, JhiAlertComponent, JhiAlertErrorComponent]
+    exports: [PropsyBackendJwtSharedLibsModule, FindLanguageFromKeyPipe, JhiAlertComponent, JhiAlertErrorComponent]
 })
-export class PropsyBackendv01SharedCommonModule {}
+export class PropsyBackendJwtSharedCommonModule {}

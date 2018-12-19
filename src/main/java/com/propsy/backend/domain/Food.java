@@ -24,14 +24,17 @@ public class Food implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "name_slug", nullable = false)
+    @Size(min = 2, max = 250)
+    @Column(name = "name_slug", length = 250, nullable = false)
     private String nameSlug;
 
     @NotNull
+    @DecimalMin(value = "0")
     @Column(name = "price", nullable = false)
     private Float price;
 
-    @Column(name = "food_description")
+    @Size(max = 250)
+    @Column(name = "food_description", length = 250)
     private String foodDescription;
 
     @Column(name = "calories")
@@ -46,12 +49,12 @@ public class Food implements Serializable {
     @Column(name = "is_gluten_free")
     private Boolean isGlutenFree;
 
-    @Column(name = "photo_location")
-    private String photoLocation;
+    @Lob
+    @Column(name = "photo_blob")
+    private byte[] photoBlob;
 
-    @OneToOne(mappedBy = "food")
-    @JsonIgnore
-    private Translation translation;
+    @Column(name = "photo_blob_content_type")
+    private String photoBlobContentType;
 
     @ManyToMany(mappedBy = "foodItems")
     @JsonIgnore
@@ -161,30 +164,30 @@ public class Food implements Serializable {
         this.isGlutenFree = isGlutenFree;
     }
 
-    public String getPhotoLocation() {
-        return photoLocation;
+    public byte[] getPhotoBlob() {
+        return photoBlob;
     }
 
-    public Food photoLocation(String photoLocation) {
-        this.photoLocation = photoLocation;
+    public Food photoBlob(byte[] photoBlob) {
+        this.photoBlob = photoBlob;
         return this;
     }
 
-    public void setPhotoLocation(String photoLocation) {
-        this.photoLocation = photoLocation;
+    public void setPhotoBlob(byte[] photoBlob) {
+        this.photoBlob = photoBlob;
     }
 
-    public Translation getTranslation() {
-        return translation;
+    public String getPhotoBlobContentType() {
+        return photoBlobContentType;
     }
 
-    public Food translation(Translation translation) {
-        this.translation = translation;
+    public Food photoBlobContentType(String photoBlobContentType) {
+        this.photoBlobContentType = photoBlobContentType;
         return this;
     }
 
-    public void setTranslation(Translation translation) {
-        this.translation = translation;
+    public void setPhotoBlobContentType(String photoBlobContentType) {
+        this.photoBlobContentType = photoBlobContentType;
     }
 
     public Set<Menu> getMenus() {
@@ -269,7 +272,8 @@ public class Food implements Serializable {
             ", isSpicy='" + isIsSpicy() + "'" +
             ", isVegetarian='" + isIsVegetarian() + "'" +
             ", isGlutenFree='" + isIsGlutenFree() + "'" +
-            ", photoLocation='" + getPhotoLocation() + "'" +
+            ", photoBlob='" + getPhotoBlob() + "'" +
+            ", photoBlobContentType='" + getPhotoBlobContentType() + "'" +
             "}";
     }
 }
